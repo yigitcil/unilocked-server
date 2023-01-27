@@ -5,6 +5,7 @@ import { Collection } from "mongodb";
 import passport from "passport";
 import bcrypt from "bcrypt";
 import ensureAuthenticated from "@modules/middleware/ensure-authenticated";
+import { tr } from "@modules/services/translator";
 
 export default class AuthController extends BaseController {
   private get users(): Collection {
@@ -33,23 +34,23 @@ export default class AuthController extends BaseController {
       let errors: { id: number; msg: string }[] = [];
 
       if (!first_name || !last_name || !email || !password || !password2) {
-        errors.push({ id: 0, msg: "Please fill in all fields" });
+        errors.push({ id: 0, msg: tr("Please fill in all fields") });
       }
       //check if match
       if (password !== password2) {
-        errors.push({ id: 1, msg: "passwords dont match" });
+        errors.push({ id: 1, msg: tr( "passwords dont match") });
       }
 
       //check if password is more than 6 characters
       if (password.length < 6) {
-        errors.push({ id: 2, msg: "password atleast 6 characters" });
+        errors.push({ id: 2, msg: tr("password atleast 6 characters") });
       }
       if (errors.length > 0) {
         res.status(403).send({ errors: errors });
       } else {
         this.users.findOne({ email: email }).then((user) => {
           if (user) {
-            errors.push({ id: 3, msg: "email already registered" });
+            errors.push({ id: 3, msg: tr("email already registered") });
             res.status(403).send({ errors: errors });
           } else {
             const newUser = {
