@@ -1,24 +1,25 @@
 import { MongoClient } from "mongodb";
-import { Connector } from "./modules/connector.js";
-import { Creator } from "./modules/creator.js";
-import { Router } from "./modules/router.js";
-import { Server } from "./modules/server.js";
+import { Connector } from "@modules/connector";
+import { Creator } from "@modules/creator";
+import { Router } from "@modules/router";
+
 import { Express } from "express";
+import { Server } from "@modules/server";
 
 
-process.env.APP_PATH = "C:/Users/Administrator/Desktop/tau"
-process.env.path = "C:/Users/Administrator/Desktop/tau"
+process.env.APP_PATH = "C:/Users/Administrator/Desktop/"
+process.env.path = "C:/Users/Administrator/Desktop/"
 
 const connector = new Connector();
 connector.connect((db: MongoClient | undefined) => {
   if (db !== undefined) {
-    const dbo = db.db("tau-video");
+    const dbo = db.db("unilocked");
     Creator.create(dbo);
 
-    const server = new Server();
+    const server = new Server(dbo);
     server.listen(80, (app: Express) => {
-      const router = new Router();
-      router.listen(app, dbo);
+      const router = new Router(app, dbo);
+      router.listen();
       
     });
   }

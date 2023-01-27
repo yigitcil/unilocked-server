@@ -1,23 +1,37 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+'use strict';
+var __importDefault = this && this.__importDefault || function (mod) {
+    return mod && mod.__esModule ? mod : { 'default': mod };
+};
+Object.defineProperty(exports, '__esModule', { value: true });
 exports.Router = void 0;
-var Router = /** @class */ (function () {
-    function Router() {
+var auth_controller_1 = __importDefault(require('./controllers\\auth-controller'));
+var express_1 = require('express');
+var Router = (function () {
+    function Router(app, db) {
+        this.app = app;
+        this.db = db;
     }
-    Router.prototype.listen = function (app, db) {
-        /**
-         * For Cors
-         */
-        app.use("*", function (req, res, next) {
-            res.header("Access-Control-Allow-Origin", "*");
-            res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
-            res.header("Access-Control-Allow-Headers", "Content-Type, Authorization, Content-Length, X-Requested-With,ngsw-bypass");
-            next();
-        });
+    Router.prototype.listen = function () {
+        this.createRoute('auth', auth_controller_1.default);
+    };
+    Router.prototype.createRoute = function (path, controller, base) {
+        if (path === void 0) {
+            path = null;
+        }
+        if (base === void 0) {
+            base = '/api/';
+        }
+        var router = (0, express_1.Router)();
+        new controller(this.db).listen(router);
+        if (path) {
+            this.app.use(base + path, router);
+        } else {
+            this.app.use(base, router);
+        }
     };
     Router.prototype.error = function (res) {
         res.send({ success: false });
     };
     return Router;
-}());
+})();
 exports.Router = Router;
