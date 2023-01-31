@@ -10,4 +10,5 @@ export default interface Role {
     description: string;
     type: string;
     internal: number;
+    permissions: string[];
 }
