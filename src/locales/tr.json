@@ -1,4 +1,5 @@
 {
     "Email not registered" : "Bu eposta kayılı değil",
-    "Password incorrect" : "Parola yanlış"
+    "Password incorrect" : "Parola yanlış",
+    "The user is not authorized to perform this operation.": "Kullanıcının bunu yapmaya izni yok."
 }
