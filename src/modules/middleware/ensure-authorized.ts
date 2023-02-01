@@ -7,7 +7,7 @@ export default function ensureAuthorized(
 ) {
 
   return (req: Request, res: Response, next: NextFunction) => {
-    const user = req.user;
+    const user = req.user as User;
     const permissions = new Set<string>(); //To avoid duplicate permissions.
 
     user?.roles?.forEach(role => {
