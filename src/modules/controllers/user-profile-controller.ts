@@ -18,6 +18,8 @@ export class UserProfileController extends BaseController {
         if (keys.includes(key))
           userToReturn[key] = user[key];
       });
+
+      return userToReturn;
     }
     
 }
