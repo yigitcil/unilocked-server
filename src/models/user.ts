@@ -1,5 +1,8 @@
 import Role from "@models/role";
 import { ObjectId } from "mongodb";
+import { Post } from "./post";
+import { Project } from "./project";
+import { University } from "./university";
 
 export interface User{
     _id: ObjectId;
@@ -22,5 +25,8 @@ export interface User{
     display_name?: string;
     has_password?: boolean //!;
     roles?: Role[];
-    
+    posts?: Post[];
+    followers?: User[];
+    university?: University;
+    projectsParticipated?: Project[];
 }
