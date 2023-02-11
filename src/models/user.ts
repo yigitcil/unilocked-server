@@ -6,7 +6,7 @@ import { University } from "./university";
 
 export interface User{
     _id: ObjectId;
-    username?: string;
+    username?: string; // slug
     first_name?: any;
     last_name?: any;
     avatar_url?: any;

@@ -20,4 +20,8 @@ export class UserController extends BaseController{
   public byId(_id: string) {
     return this.users.findOne<User>({ _id: new ObjectId(_id) });
   }
+
+  public byUsername(username: string) {
+    return this.users.findOne({ username: username });
+  }
 }

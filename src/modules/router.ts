@@ -9,6 +9,7 @@ export class Router {
   public listen() {
     
     this.createRoute("auth", AuthController);
+    
   }
 
   public createRoute<Type extends BaseController>(
