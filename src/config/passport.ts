@@ -24,7 +24,7 @@ export default class PassportConfig {
               if (isMatch) {
                 return done(null, user);
               } else {
-                return done(null, false, { message: tr("Eassword incorrect") });
+                return done(null, false, { message: tr("Password incorrect") });
               }
             });
           })

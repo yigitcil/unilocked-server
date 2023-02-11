@@ -9,22 +9,18 @@ export interface User{
     avatar_url?: any;
     about?: string;
     gender?: string;
-    email?: string;
-    password?:string;
+    email?: string; //!
+    password?:string; //!
     
-    created_at?: Date;
-    updated_at?: Date;
-    background?: string;
-    language?: string;
-    country?: any;
-    timezone?: any;
-    public_profile?: boolean;
-    notifications?: boolean;
+    created_at?: Date; //!
+    updated_at?: Date; //!
+    background?: string; 
+    
     avatar?: string;
-    available_space?: any;
-    email_verified_at?: Date;
+    available_space?: any //!;
+    email_verified_at?: Date //!;
     display_name?: string;
-    has_password?: boolean;
+    has_password?: boolean //!;
     roles?: Role[];
     
 }

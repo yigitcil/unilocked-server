@@ -17,7 +17,7 @@ connector.connect((db: MongoClient | undefined) => {
     Creator.create(dbo);
 
     const server = new Server(dbo);
-    server.listen(80, (app: Express) => {
+    server.listen(3000, (app: Express) => {
       const router = new Router(app, dbo);
       router.listen();
       

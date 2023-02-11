@@ -42,20 +42,42 @@ var Creator = /** @class */ (function () {
     }
     Creator.create = function (db) {
         return __awaiter(this, void 0, void 0, function () {
-            var collections;
             return __generator(this, function (_a) {
-                collections = [
-                    'users' // Database tables will be here
-                ];
-                collections.forEach(function (item) {
-                    var exists = db.listCollections({ name: item })
-                        .hasNext();
-                    if (!exists) {
-                        db.createCollection(item);
-                    }
-                });
+                this.createCollections(db);
+                this.createViews(db);
                 return [2 /*return*/];
             });
+        });
+    };
+    Creator.createViews = function (db) { };
+    Creator.createCollections = function (db) {
+        var collections = [
+            {
+                name: "users",
+                views: [
+                    {
+                        name: "secure_users",
+                        project: {
+                            password: 0,
+                        },
+                    },
+                ],
+            },
+        ];
+        collections.forEach(function (item) {
+            var exists = db.listCollections({ name: item }).hasNext();
+            if (!exists) {
+                db.createCollection(item.name);
+                if (item.views.length > 0) {
+                    for (var _i = 0, _a = item.views; _i < _a.length; _i++) {
+                        var view = _a[_i];
+                        db.createCollection(view.name, {
+                            viewOn: item.name,
+                            pipeline: [{ $project: view.project }],
+                        });
+                    }
+                }
+            }
         });
     };
     return Creator;

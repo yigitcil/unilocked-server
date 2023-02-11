@@ -11,7 +11,7 @@ import flash from "connect-flash";
 export class Server {
   private app;
 
-  private privateKey = fs.readFileSync(
+  /*private privateKey = fs.readFileSync(
     "C:/Certbot/live/tau-video.xyz/privkey.pem",
     "utf8"
   );
@@ -28,7 +28,7 @@ export class Server {
     key: this.privateKey,
     cert: this.certificate,
     ca: this.ca,
-  };
+  };*/
 
   constructor(private db: Db) {
     this.app = express();
@@ -37,16 +37,17 @@ export class Server {
 
   public listen(port: number, callback: any) {
     const httpServer = http.createServer(this.app);
-    const httpsServer = https.createServer(this.credentials, this.app);
+    //const httpsServer = https.createServer(this.credentials, this.app);
 
-    httpServer.listen(80, () => {
+    httpServer.listen(port, () => {
       console.log("HTTP Server running on port 80");
+      callback(this.app)
     });
 
-    httpsServer.listen(443, () => {
+    /*httpsServer.listen(443, () => {
       console.log("HTTP Server running on port 443");
       callback(this.app);
-    });
+    });*/
   }
 
   private use() {
@@ -57,6 +58,10 @@ export class Server {
         secret: "secret",
         resave: true,
         saveUninitialized: true,
+        cookie: {
+          maxAge : 30 * 24 * 60 * 60 * 1000,
+
+        }
       })
     );
     this.app.use(passport.initialize());

@@ -12,7 +12,7 @@ connector.connect(function (db) {
         var dbo_1 = db.db('unilocked');
         creator_1.Creator.create(dbo_1);
         var server = new server_1.Server(dbo_1);
-        server.listen(80, function (app) {
+        server.listen(3000, function (app) {
             var router = new router_1.Router(app, dbo_1);
             router.listen();
         });

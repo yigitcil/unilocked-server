@@ -7,6 +7,7 @@ export class Router {
   constructor(private app: Express, private db: Db) {}
 
   public listen() {
+    
     this.createRoute("auth", AuthController);
   }
 
