@@ -1,7 +1,8 @@
-import { User } from "@models/user";
+import { User, UserModel } from "@models/user";
 import BaseController from "@modules/controllers/base-controller";
 import { Router } from "express";
-import { Collection, Db, ObjectId } from "mongodb";
+import mongoose from "mongoose";
+
 
 export class UserController extends BaseController{
 
@@ -10,14 +11,14 @@ export class UserController extends BaseController{
    
   }
 
-  private get users(): Collection {
-    return this.db.collection("users");
-  }
-
   public byEmail(email: string) {
-    return this.users.findOne({ email: email });
+    return UserModel.findOne({ email: email });
   }
   public byId(_id: string) {
-    return this.users.findOne<User>({ _id: new ObjectId(_id) });
+    return UserModel.findOne<User>({ _id: new mongoose.Types.ObjectId(_id) });
+  }
+
+  public byUsername(username: string) {
+    return UserModel.findOne({ username: username });
   }
 }

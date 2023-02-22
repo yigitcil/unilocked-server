@@ -1,28 +1,27 @@
-import { MongoClient } from "mongodb";
+
 import { Connector } from "@modules/connector";
-import { Creator } from "@modules/creator";
+
 import { Router } from "@modules/router";
 
 import { Express } from "express";
 import { Server } from "@modules/server";
 
+require('dotenv/config')
 
 process.env.APP_PATH = "C:/Users/Administrator/Desktop/"
 process.env.path = "C:/Users/Administrator/Desktop/"
 
 const connector = new Connector();
-connector.connect((db: MongoClient | undefined) => {
-  if (db !== undefined) {
-    const dbo = db.db("unilocked");
-    Creator.create(dbo);
+connector.connect(() => {
+ 
 
-    const server = new Server(dbo);
-    server.listen(80, (app: Express) => {
-      const router = new Router(app, dbo);
+    const server = new Server();
+    server.listen(3000, (app: Express) => {
+      const router = new Router(app);
       router.listen();
       
     });
-  }
+ 
 });
 
 process

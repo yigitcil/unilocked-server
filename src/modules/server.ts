@@ -3,7 +3,6 @@ import express from "express";
 import fs from "fs";
 import http from "http";
 import https from "https";
-import { Db } from "mongodb";
 import session from "express-session";
 import passport from "passport";
 import flash from "connect-flash";
@@ -11,7 +10,7 @@ import flash from "connect-flash";
 export class Server {
   private app;
 
-  private privateKey = fs.readFileSync(
+  /*private privateKey = fs.readFileSync(
     "C:/Certbot/live/tau-video.xyz/privkey.pem",
     "utf8"
   );
@@ -28,35 +27,40 @@ export class Server {
     key: this.privateKey,
     cert: this.certificate,
     ca: this.ca,
-  };
+  };*/
 
-  constructor(private db: Db) {
+  constructor() {
     this.app = express();
     this.use();
   }
 
   public listen(port: number, callback: any) {
     const httpServer = http.createServer(this.app);
-    const httpsServer = https.createServer(this.credentials, this.app);
+    //const httpsServer = https.createServer(this.credentials, this.app);
 
-    httpServer.listen(80, () => {
+    httpServer.listen(port, () => {
       console.log("HTTP Server running on port 80");
+      callback(this.app)
     });
 
-    httpsServer.listen(443, () => {
+    /*httpsServer.listen(443, () => {
       console.log("HTTP Server running on port 443");
       callback(this.app);
-    });
+    });*/
   }
 
   private use() {
-    new PassportConfig().init(this.db);
+    new PassportConfig().init();
     this.app.use(express.urlencoded({ extended: false }));
     this.app.use(
       session({
         secret: "secret",
         resave: true,
         saveUninitialized: true,
+        cookie: {
+          maxAge : 30 * 24 * 60 * 60 * 1000,
+
+        }
       })
     );
     this.app.use(passport.initialize());

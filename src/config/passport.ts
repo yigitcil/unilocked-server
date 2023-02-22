@@ -1,4 +1,3 @@
-import { Db } from "mongodb";
 import passport, { use } from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
 import { UserController } from "../modules/controllers/user-controller";
@@ -7,13 +6,14 @@ import { tr } from "../modules/services/translator";
 import { User } from "@models/user";
 
 export default class PassportConfig {
-  public init(db: Db) {
-    const userController = new UserController(db);
+  public init() {
+    const userController = new UserController();
     passport.use(
       new LocalStrategy({ usernameField: "email" }, (email, password, done) => {
         //match user
         userController
           .byEmail(email)
+          .select("+password")
           .then((user) => {
             if (!user) {
               return done(null, false, { message: tr("Email not registered") });
@@ -24,7 +24,7 @@ export default class PassportConfig {
               if (isMatch) {
                 return done(null, user);
               } else {
-                return done(null, false, { message: tr("Eassword incorrect") });
+                return done(null, false, { message: tr("Password incorrect") });
               }
             });
           })

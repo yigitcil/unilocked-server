@@ -1,6 +1,6 @@
 {
   "name": "unilocked",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -28,6 +28,7 @@
   },
   "dependencies": {
     "@ef-carbon/tspm": "^2.2.5",
+    "@typegoose/typegoose": "^10.1.1",
     "axios": "^0.27.2",
     "b2-cloud-storage": "^1.0.5",
     "backblaze-b2": "^1.7.0",
@@ -36,13 +37,17 @@
     "clone": "^2.1.2",
     "connect-flash": "^0.1.1",
     "crypto": "^1.0.1",
+    "dotenv": "^16.0.3",
     "express": "^4.17.2",
     "express-session": "^1.17.3",
+    "gravatar": "^1.8.2",
     "i": "^0.3.7",
     "mongodb": "^4.13.0",
+    "mongoose": "^6.9.2",
     "npm": "^8.18.0",
     "passport": "^0.6.0",
     "passport-local": "^1.0.0",
+    "slugify": "^1.6.5",
     "uuid": "^8.3.2"
   }
 }
