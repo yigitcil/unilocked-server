@@ -1,4 +1,4 @@
-import { getModelForClass, mongoose } from "@typegoose/typegoose";
+import { getModelForClass } from "@typegoose/typegoose";
 import { prop } from "@typegoose/typegoose/lib/prop";
 import { User } from "./user";
 
@@ -9,8 +9,6 @@ enum WorkingType {
 }
 
 export class ProjectPosting {
-  @prop({ required: true })
-  _id: mongoose.Types.ObjectId;;
   @prop()
   author: User;
   @prop()

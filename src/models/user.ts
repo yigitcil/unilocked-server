@@ -4,7 +4,6 @@ import { Project } from "./project";
 import { University } from "./university";
 import { Post } from "./post";
 import { Role } from "@models/role";
-import mongoose from "mongoose";
 
 export class User {
   @prop()

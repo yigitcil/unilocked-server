@@ -1,11 +1,8 @@
 import { User } from "@models/user";
 import { prop } from "@typegoose/typegoose/lib/prop";
-import mongoose from "mongoose";
 import { Post } from "./post";
 
 export class Project {
-  @prop()
-  _id: mongoose.Types.ObjectId;;
   @prop()
   name: string;
   @prop()
