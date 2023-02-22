@@ -1,4 +1,5 @@
 import { User } from "@models/user";
+import { getModelForClass } from "@typegoose/typegoose";
 import { prop } from "@typegoose/typegoose/lib/prop";
 import { Post } from "./post";
 
@@ -9,7 +10,6 @@ export class Project {
   summary: string;
   @prop()
   description: string;
-
   //Target
   @prop()
   currency: string;
@@ -28,3 +28,7 @@ export class Project {
   @prop({ type: () => [String] })
   links: string[];
 }
+
+const ProjectModel = getModelForClass(Project);
+
+export {ProjectModel}
