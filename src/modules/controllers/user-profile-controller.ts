@@ -1,3 +1,5 @@
+import { UserModel } from "@models/user";
+import success from "@modules/responses/success";
 import { Router } from "express";
 import BaseController from "./base-controller";
 import { UserController } from "./user-controller";
@@ -10,6 +12,12 @@ export class UserProfileController extends BaseController {
         sucess: true,
         data: user,
       });
+    });
+
+    router.get("/", async (req, res, next) => {
+      const users = await UserModel.find().exec();
+
+      res.send(success(users));
     });
   }
 
