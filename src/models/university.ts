@@ -1,11 +1,13 @@
-import { getModelForClass } from "@typegoose/typegoose";
-import mongoose from "mongoose";
+import { getModelForClass, prop } from "@typegoose/typegoose";
 
 export class University {
-    _id: mongoose.Types.ObjectId;;
+    @prop()
     name: string;
+    @prop()
     icon_url: any;
+    @prop()
     city: string;
+    @prop()
     address: string;
 }
 

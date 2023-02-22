@@ -3,8 +3,6 @@ import { prop } from "@typegoose/typegoose/lib/prop";
 
 export class Role {
     @prop()
-    _id: mongoose.Types.ObjectId;;
-    @prop()
     name: string;
     @prop()
     color: string;
