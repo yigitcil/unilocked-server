@@ -2,7 +2,6 @@ import AuthController from "@modules/controllers/auth-controller";
 import BaseController from "@modules/controllers/base-controller";
 import { UserProfileController } from "@modules/controllers/user-profile-controller";
 import e, { Express, Response, Router as ExpressRouter } from "express";
-import { Db } from "mongodb";
 
 export class Router {
   constructor(private app: Express) {}

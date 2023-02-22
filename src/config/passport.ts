@@ -1,4 +1,3 @@
-import { Db } from "mongodb";
 import passport, { use } from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
 import { UserController } from "../modules/controllers/user-controller";
