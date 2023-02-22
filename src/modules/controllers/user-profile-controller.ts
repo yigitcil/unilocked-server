@@ -1,5 +1,6 @@
-import { UserModel } from "@models/user";
+import { User, UserModel } from "@models/user";
 import success from "@modules/responses/success";
+import PaginateService from "@modules/services/paginate";
 import { Router } from "express";
 import BaseController from "./base-controller";
 import { UserController } from "./user-controller";
@@ -15,9 +16,9 @@ export class UserProfileController extends BaseController {
     });
 
     router.get("/", async (req, res, next) => {
-      const users = await UserModel.find().exec();
+      const users = UserModel.find();
 
-      res.send(success(users));
+      res.send(success(PaginateService.paginate(req, UserModel, users)));
     });
   }
 

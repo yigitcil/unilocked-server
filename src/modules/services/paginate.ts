@@ -1,27 +1,31 @@
-import { BeAnObject } from "@typegoose/typegoose/lib/types";
+import { User, UserModel } from "@models/user";
+import { AnyParamConstructor, BeAnObject, ReturnModelType } from "@typegoose/typegoose/lib/types";
 import { Request } from "express";
 import { FindCursor } from "mongodb";
-import { QueryWithHelpers } from "mongoose";
+import { Query, QueryWithHelpers } from "mongoose";
 
 export default class PaginateService {
-
-    /**
-     * Usage: paginate(req,collection.countDocuments(),collection.find())
-     * @param req 
-     * @param count 
-     * @param query 
-     * @returns 
-     */
-  static async paginate<T>(req: Request, query: QueryWithHelpers<any, BeAnObject, T>) {
+  /**
+   * Usage: paginate(req,collection.countDocuments(),collection.find())
+   * @param req
+   * @param count
+   * @param query
+   * @returns
+   */
+  static async paginate<T extends AnyParamConstructor<any>>(
+    req: Request,
+    model: ReturnModelType<T, BeAnObject>,
+    query: any
+  ) {
     let page = parseInt((req.query.page as string) || "1");
     let perPage = parseInt((req.query.perPage as string) || "15");
 
-    const count = await query.count().exec();
+    const count = await model.count();
 
     const data = await query
+      .limit(perPage)
       .skip((page - 1) * perPage)
-      .limit(perPage).exec()
-      
+      .exec();
 
     if (count != -1) {
       const current_page = page;
