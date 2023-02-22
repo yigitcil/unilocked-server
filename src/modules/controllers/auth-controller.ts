@@ -84,11 +84,7 @@ export default class AuthController extends BaseController {
                 newUser.password = hash;
 
                 await UserModel.create(newUser);
-
-                /*const { password, ...user } = await this.users.findOne({
-                  email: email,
-                });*/ // Parolayı gizleme
-
+                
                 res.send({
                   success: true,
                   needsEmailConfirmation: true,
