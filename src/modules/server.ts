@@ -30,7 +30,7 @@ export class Server {
     ca: this.ca,
   };*/
 
-  constructor(private db: Db) {
+  constructor() {
     this.app = express();
     this.use();
   }
@@ -51,7 +51,7 @@ export class Server {
   }
 
   private use() {
-    new PassportConfig().init(this.db);
+    new PassportConfig().init();
     this.app.use(express.urlencoded({ extended: false }));
     this.app.use(
       session({

@@ -7,8 +7,8 @@ import { tr } from "../modules/services/translator";
 import { User } from "@models/user";
 
 export default class PassportConfig {
-  public init(db: Db) {
-    const userController = new UserController(db);
+  public init() {
+    const userController = new UserController();
     passport.use(
       new LocalStrategy({ usernameField: "email" }, (email, password, done) => {
         //match user

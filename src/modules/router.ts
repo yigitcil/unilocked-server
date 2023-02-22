@@ -5,7 +5,7 @@ import e, { Express, Response, Router as ExpressRouter } from "express";
 import { Db } from "mongodb";
 
 export class Router {
-  constructor(private app: Express, private db: Db) {}
+  constructor(private app: Express) {}
 
   public listen() {
     
@@ -15,11 +15,11 @@ export class Router {
 
   public createRoute<Type extends BaseController>(
     path: string | null = null,
-    controller: { new (db: Db): Type },
+    controller: { new (): Type },
     base: string = "/api/"
   ) {
     const router = ExpressRouter();
-    new controller(this.db).listen(router);
+    new controller().listen(router);
     if (path) {
       this.app.use(base + path, router);
     } else {
