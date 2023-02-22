@@ -1,12 +1,16 @@
 import { User, UserModel } from "@models/user";
-import { AnyParamConstructor, BeAnObject, ReturnModelType } from "@typegoose/typegoose/lib/types";
+import {
+  AnyParamConstructor,
+  BeAnObject,
+  ReturnModelType,
+} from "@typegoose/typegoose/lib/types";
 import { Request } from "express";
 import { FindCursor } from "mongodb";
 import { Query, QueryWithHelpers } from "mongoose";
 
 export default class PaginateService {
   /**
-   * Usage: paginate(req,collection.countDocuments(),collection.find())
+   * Usage: paginate(req,Model,Model.find())
    * @param req
    * @param count
    * @param query
@@ -27,24 +31,16 @@ export default class PaginateService {
       .skip((page - 1) * perPage)
       .exec();
 
-    if (count != -1) {
-      const current_page = page;
-      const lastPageItemCount = count % perPage;
-      const last_page =
-        Math.round(count / perPage) + (lastPageItemCount > 0 ? 1 : 0);
-      return {
-        current_page,
-        last_page,
-        per_page: perPage,
-        data,
-      };
-    } else {
-      return {
-        current_page: page,
-        last_page: -1, // unknwon,
-        per_page: perPage,
-        data,
-      };
-    }
+    const current_page = page;
+    const lastPageItemCount = count % perPage;
+    const last_page =
+      Math.round(count / perPage) + (lastPageItemCount > 0 ? 1 : 0);
+    return {
+      current_page,
+      last_page,
+      per_page: perPage,
+      data,
+      total: count,
+    };
   }
 }
