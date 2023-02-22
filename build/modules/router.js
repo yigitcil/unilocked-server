@@ -5,6 +5,7 @@ var __importDefault = this && this.__importDefault || function (mod) {
 Object.defineProperty(exports, '__esModule', { value: true });
 exports.Router = void 0;
 var auth_controller_1 = __importDefault(require('./controllers\\auth-controller'));
+var user_profile_controller_1 = require('./controllers\\user-profile-controller');
 var express_1 = require('express');
 var Router = (function () {
     function Router(app, db) {
@@ -13,6 +14,7 @@ var Router = (function () {
     }
     Router.prototype.listen = function () {
         this.createRoute('auth', auth_controller_1.default);
+        this.createRoute('user-profile', user_profile_controller_1.UserProfileController);
     };
     Router.prototype.createRoute = function (path, controller, base) {
         if (path === void 0) {

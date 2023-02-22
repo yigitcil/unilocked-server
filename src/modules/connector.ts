@@ -1,21 +1,18 @@
-import { MongoClient } from 'mongodb'
+import { MongoClient } from "mongodb";
+import mongoose from "mongoose";
 
 export class Connector {
-    private url = "mongodb://localhost:27017/tau-video"
-    private db: MongoClient | undefined
-    public connect(callback: any) {
+ 
+ 
+  public connect(callback: any) {
+    mongoose
+      .connect(process.env.DATABASE)
+      .then(() => {
+        callback();
+      });
+  }
 
-        MongoClient.connect(this.url, (err, db) => {
-            if (err) throw err
-            console.log("Database created!")
-            this.db = db
-            callback(db)
-        });
-    }
-
-    public disconnect() {
-        if (this.db !== undefined) {
-            this.db.close()
-        }
-    }
+  public disconnect() {
+    mongoose.disconnect()
+  }
 }

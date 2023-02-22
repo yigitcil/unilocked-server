@@ -8,7 +8,7 @@ enum WorkingType {
     }
 
 export class ProjectPosting {
-    id: ObjectId;
+    _id: ObjectId;
     author: User;
     description: string;
     location: string;

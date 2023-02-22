@@ -1,6 +1,6 @@
 {
   "name": "unilocked",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -42,6 +42,7 @@
     "gravatar": "^1.8.2",
     "i": "^0.3.7",
     "mongodb": "^4.13.0",
+    "mongoose": "^6.9.2",
     "npm": "^8.18.0",
     "passport": "^0.6.0",
     "passport-local": "^1.0.0",

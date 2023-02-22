@@ -47,6 +47,9 @@ var UserController = (function (_super) {
     UserController.prototype.byId = function (_id) {
         return this.users.findOne({ _id: new mongodb_1.ObjectId(_id) });
     };
+    UserController.prototype.byUsername = function (username) {
+        return this.users.findOne({ username: username });
+    };
     return UserController;
 })(base_controller_1.default);
 exports.UserController = UserController;
