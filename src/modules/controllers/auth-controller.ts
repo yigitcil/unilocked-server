@@ -1,4 +1,4 @@
-import { User } from "@models/user";
+import { User, UserModel } from "@models/user";
 import BaseController from "@modules/controllers/base-controller";
 import { Router } from "express";
 import { Collection } from "mongodb";
@@ -8,11 +8,9 @@ import ensureAuthenticated from "@modules/middleware/ensure-authenticated";
 import { tr } from "@modules/services/translator";
 import gravatar from "gravatar";
 import jsonError from "@modules/middleware/json-error";
+import slugify from "slugify";
 
 export default class AuthController extends BaseController {
-  private get users(): Collection {
-    return this.db.collection("users");
-  }
 
   listen(router: Router): void {
     router.get("/me", ensureAuthenticated, (req, res) => {
@@ -64,8 +62,9 @@ export default class AuthController extends BaseController {
       if (errors.length > 0) {
         res.status(403).send({ errors: errors });
       } else {
-        this.users.findOne({ email: email }).then((user) => {
+        UserModel.findOne({ email: email }).then((user) => {
           if (user) {
+            
             errors.push({ id: 3, msg: tr("email already registered") });
             res.status(403).send({ errors: errors });
           } else {
@@ -76,6 +75,7 @@ export default class AuthController extends BaseController {
               last_name,
               password,
               avatar,
+              username : slugify(first_name + " " + last_name, { lower: true }),
             };
             bcrypt.genSalt(10, (err, salt) =>
               bcrypt.hash(newUser.password, salt, async (err, hash) => {
@@ -83,7 +83,7 @@ export default class AuthController extends BaseController {
 
                 newUser.password = hash;
 
-                await this.users.insertOne(newUser);
+                await UserModel.create(newUser);
 
                 /*const { password, ...user } = await this.users.findOne({
                   email: email,

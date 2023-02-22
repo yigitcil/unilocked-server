@@ -8,9 +8,8 @@ var auth_controller_1 = __importDefault(require('./controllers\\auth-controller'
 var user_profile_controller_1 = require('./controllers\\user-profile-controller');
 var express_1 = require('express');
 var Router = (function () {
-    function Router(app, db) {
+    function Router(app) {
         this.app = app;
-        this.db = db;
     }
     Router.prototype.listen = function () {
         this.createRoute('auth', auth_controller_1.default);
@@ -24,7 +23,7 @@ var Router = (function () {
             base = '/api/';
         }
         var router = (0, express_1.Router)();
-        new controller(this.db).listen(router);
+        new controller().listen(router);
         if (path) {
             this.app.use(base + path, router);
         } else {

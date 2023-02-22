@@ -14,16 +14,10 @@ export class UserProfileController extends BaseController {
   }
 
   public byUserName(id: string) {
-    const userController = new UserController(this.db);
+    const userController = new UserController();
     const user = userController.byUsername(id);
     const userToReturn = {};
 
-    const keys = ["posts", "followers", "university", "projectsParticipated"];
-
-    Object.keys(user).forEach((key) => {
-      if (keys.includes(key)) userToReturn[key] = user[key];
-    });
-
-    return userToReturn;
+    return user;
   }
 }

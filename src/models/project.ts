@@ -1,20 +1,33 @@
-import { ObjectId } from "mongodb";
+import { User } from "@models/user";
+import { prop } from "@typegoose/typegoose/lib/prop";
+import mongoose from "mongoose";
 import { Post } from "./post";
 
 export class Project {
-    id: ObjectId;
-    name: string;
-    summary: string;
-    description: string;
+  @prop()
+  _id: mongoose.Types.ObjectId;;
+  @prop()
+  name: string;
+  @prop()
+  summary: string;
+  @prop()
+  description: string;
 
-    //Target
-    currency: string;
-    amount: number;
-
-    tags: string[];
-    daysRemaining: number;
-    numberOfFollowers: number;
-    posts: Post[];
-    likes: Post[];
-    links: string[];
+  //Target
+  @prop()
+  currency: string;
+  @prop()
+  amount: number;
+  @prop()
+  tags: string[];
+  @prop()
+  daysRemaining: number;
+  @prop()
+  numberOfFollowers: number;
+  @prop({ type: () => [Post] })
+  posts: Post[];
+  @prop({ type: () => [User] })
+  likes: User[];
+  @prop({ type: () => [String] })
+  links: string[];
 }

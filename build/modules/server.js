@@ -29,8 +29,7 @@ var Server = (function () {
       cert: this.certificate,
       ca: this.ca,
     };*/
-    function Server(db) {
-        this.db = db;
+    function Server() {
         this.app = (0, express_1.default)();
         this.use();
     }
@@ -47,7 +46,7 @@ var Server = (function () {
         });*/
     };
     Server.prototype.use = function () {
-        new passport_1.default().init(this.db);
+        new passport_1.default().init();
         this.app.use(express_1.default.urlencoded({ extended: false }));
         this.app.use((0, express_session_1.default)({
             secret: 'secret',

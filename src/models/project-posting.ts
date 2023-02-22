@@ -1,22 +1,37 @@
-import { ObjectId } from "mongodb";
+import { getModelForClass, mongoose } from "@typegoose/typegoose";
+import { prop } from "@typegoose/typegoose/lib/prop";
 import { User } from "./user";
 
 enum WorkingType {
-        office,
-        remote,
-        hybrid
-    }
+  office,
+  remote,
+  hybrid,
+}
 
 export class ProjectPosting {
-    _id: ObjectId;
-    author: User;
-    description: string;
-    location: string;
-    sector: string;
-    title: string;
-    educationLevel: string;
-    typeOfProject: string;
-    workingType: WorkingType;
-    language: string;
-    created_at: Date;
+  @prop({ required: true })
+  _id: mongoose.Types.ObjectId;;
+  @prop()
+  author: User;
+  @prop()
+  description: string;
+  @prop()
+  location: string;
+  @prop()
+  sector: string;
+  @prop()
+  title: string;
+  @prop()
+  educationLevel: string;
+  @prop()
+  typeOfProject: string;
+  @prop()
+  workingType: WorkingType;
+  @prop()
+  language: string;
+  @prop()
+  created_at: Date;
 }
+
+const ProjectPostingModel = getModelForClass(ProjectPosting)
+export {ProjectPostingModel}

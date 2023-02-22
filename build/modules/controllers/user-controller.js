@@ -25,8 +25,9 @@ var __importDefault = this && this.__importDefault || function (mod) {
 };
 Object.defineProperty(exports, '__esModule', { value: true });
 exports.UserController = void 0;
+var user_1 = require('..\\..\\models\\user');
 var base_controller_1 = __importDefault(require('./base-controller'));
-var mongodb_1 = require('mongodb');
+var mongoose_1 = __importDefault(require('mongoose'));
 var UserController = (function (_super) {
     __extends(UserController, _super);
     function UserController() {
@@ -34,21 +35,14 @@ var UserController = (function (_super) {
     }
     UserController.prototype.listen = function (router) {
     };
-    Object.defineProperty(UserController.prototype, 'users', {
-        get: function () {
-            return this.db.collection('users');
-        },
-        enumerable: false,
-        configurable: true
-    });
     UserController.prototype.byEmail = function (email) {
-        return this.users.findOne({ email: email });
+        return user_1.UserModel.findOne({ email: email });
     };
     UserController.prototype.byId = function (_id) {
-        return this.users.findOne({ _id: new mongodb_1.ObjectId(_id) });
+        return user_1.UserModel.findOne({ _id: new mongoose_1.default.Types.ObjectId(_id) });
     };
     UserController.prototype.byUsername = function (username) {
-        return this.users.findOne({ username: username });
+        return user_1.UserModel.findOne({ username: username });
     };
     return UserController;
 })(base_controller_1.default);

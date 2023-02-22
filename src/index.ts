@@ -6,6 +6,7 @@ import { Router } from "@modules/router";
 import { Express } from "express";
 import { Server } from "@modules/server";
 
+require('dotenv/config')
 
 process.env.APP_PATH = "C:/Users/Administrator/Desktop/"
 process.env.path = "C:/Users/Administrator/Desktop/"

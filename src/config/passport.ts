@@ -14,6 +14,7 @@ export default class PassportConfig {
         //match user
         userController
           .byEmail(email)
+          .select("+password")
           .then((user) => {
             if (!user) {
               return done(null, false, { message: tr("Email not registered") });
