@@ -1,5 +1,7 @@
+import { BeAnObject } from "@typegoose/typegoose/lib/types";
 import { Request } from "express";
 import { FindCursor } from "mongodb";
+import { QueryWithHelpers } from "mongoose";
 
 export default class PaginateService {
 
@@ -10,14 +12,16 @@ export default class PaginateService {
      * @param query 
      * @returns 
      */
-  static async paginate(req: Request, count = -1, query: FindCursor) {
+  static async paginate<T>(req: Request, query: QueryWithHelpers<any, BeAnObject, T>) {
     let page = parseInt((req.query.page as string) || "1");
     let perPage = parseInt((req.query.perPage as string) || "15");
 
+    const count = await query.count().exec();
+
     const data = await query
       .skip((page - 1) * perPage)
-      .limit(perPage)
-      .toArray();
+      .limit(perPage).exec()
+      
 
     if (count != -1) {
       const current_page = page;

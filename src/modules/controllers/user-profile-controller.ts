@@ -16,8 +16,6 @@ export class UserProfileController extends BaseController {
   public byUserName(id: string) {
     const userController = new UserController();
     const user = userController.byUsername(id);
-    const userToReturn = {};
-
     return user;
   }
 }
