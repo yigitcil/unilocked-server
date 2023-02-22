@@ -1,12 +1,9 @@
-import { User, UserModel } from "@models/user";
 import {
   AnyParamConstructor,
   BeAnObject,
   ReturnModelType,
 } from "@typegoose/typegoose/lib/types";
 import { Request } from "express";
-import { FindCursor } from "mongodb";
-import { Query, QueryWithHelpers } from "mongoose";
 
 export default class PaginateService {
   /**
