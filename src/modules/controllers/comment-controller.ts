@@ -90,7 +90,7 @@ export default class CommentController extends BaseController {
 
     //Add comment to post
     PostModel.updateOne(
-      { _id: postID },
+      { _id: OID(postID) },
       { $push: { comments: savedComment._id } }
     );
 
