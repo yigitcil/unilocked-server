@@ -48,6 +48,10 @@ export class User {
   university?: University;
   @prop({ type: () => [Project] })
   projectsParticipated?: Project[];
+  @prop( {ref: () => Post } )
+  postsLiked?: Post[];
+  @prop( {ref: () => Post } )
+  postsDisliked?: Post[];
 }
 
 const UserModel = getModelForClass(User);
