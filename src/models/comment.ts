@@ -7,6 +7,9 @@ export class Comment {
   @prop()
   text?: string;
 
+  @prop()
+  edited?: boolean;
+
   @prop({ ref: () => Post })
   post?: Ref<Post>;
 
