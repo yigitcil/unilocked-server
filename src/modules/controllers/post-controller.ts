@@ -62,21 +62,21 @@ export class PostController extends BaseController {
   
 
     if (reaction === "like") {
-      PostModel.updateOne(
+      await PostModel.updateOne(
         { _id: new mongoose.Types.ObjectId(postID) },
         post.likes.length === 0 ? { $push: { likes: user._id } } : { $pull: { likes: user._id } }
       );
-      UserModel.updateOne(
+      await UserModel.updateOne(
         { _id: new mongoose.Types.ObjectId(reqUser.id) },
         post.likes.length === 0 ? { $push: { postsLiked: post._id } } : { $pull: { postsLiked: post._id } }
       );
     } else {
       //Dislike
-      PostModel.updateOne(
+      await PostModel.updateOne(
         { _id: new mongoose.Types.ObjectId(postID) },
         post.dislikes.length === 0 ? { $push: { dislikes: user._id } } : { $pull: { dislikes: user._id } }
       );
-      UserModel.updateOne(
+      await UserModel.updateOne(
         { _id: new mongoose.Types.ObjectId(reqUser.id) },
         post.dislikes.length === 0 ? { $push: { postsDisliked: post._id } } : { $pull: { postsDisliked: post._id } }
       );
