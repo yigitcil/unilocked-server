@@ -8,8 +8,10 @@ export class Post {
   text?: string;
   @prop()
   image_url?: any;
-  @prop({ type: () => [User] })
+  @prop({ ref: () => User })
   likes?: User[];
+  @prop({ ref: () => User })
+  dislikes?: User[];
 }
 
 const PostModel = getModelForClass(Post);
