@@ -4,6 +4,7 @@ import { UserProfileController } from "@modules/controllers/user-profile-control
 import e, { Express, Response, Router as ExpressRouter } from "express";
 import { SocietyController } from "./controllers/society-controller";
 import { ProjectController } from "./controllers/project-controller";
+import { PostController } from "./controllers/post-controller";
 
 export class Router {
   constructor(private app: Express) {}
@@ -14,6 +15,7 @@ export class Router {
     this.createRoute("user-profile", UserProfileController);
     this.createRoute("society", SocietyController);
     this.createRoute("project", ProjectController);
+    this.createRoute("post", PostController);
   }
 
   public createRoute<Type extends BaseController>(
