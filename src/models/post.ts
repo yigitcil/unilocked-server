@@ -12,6 +12,9 @@ export class Post {
   likes?: Ref<User>[];
   @prop({ ref: () => User })
   dislikes?: Ref<User>[];
+
+  @prop({ref: ()=> Comment})
+  comments?: Ref<Comment>[]
 }
 
 const PostModel = getModelForClass(Post);
