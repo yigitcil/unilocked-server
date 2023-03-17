@@ -5,7 +5,21 @@ import { Router } from "express";
 import BaseController from "./base-controller";
 
 export default class CommentController extends BaseController {
-  listen(router: Router): void {}
+  listen(router: Router): void {
+    router.post("/:id", async (req, res, next) => {
+      const comment = await this.createComment(
+        req.params.id,
+        req.user._id,
+        req.body.message
+      );
+
+      res.send({
+        success: true,
+        data: comment,
+      });
+      next();
+    });
+  }
 
   private async createComment(postID: string, userID, message: string) {
     this.validateComment(message);
