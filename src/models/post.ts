@@ -1,4 +1,4 @@
-import { getModelForClass } from "@typegoose/typegoose";
+import { getModelForClass, Ref } from "@typegoose/typegoose";
 import { prop } from "@typegoose/typegoose/lib/prop";
 
 import { User } from "./user";
@@ -9,9 +9,9 @@ export class Post {
   @prop()
   image_url?: any;
   @prop({ ref: () => User })
-  likes?: User[];
+  likes?: Ref<User>[];
   @prop({ ref: () => User })
-  dislikes?: User[];
+  dislikes?: Ref<User>[];
 }
 
 const PostModel = getModelForClass(Post);
