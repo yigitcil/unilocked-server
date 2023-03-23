@@ -5,6 +5,16 @@ import { Router } from "@modules/router";
 
 import { Express } from "express";
 import { Server } from "@modules/server";
+import mongoose from "mongoose";
+import { User as UserModel } from "@models/user";
+
+declare global {
+  namespace Express {
+    interface User extends UserModel {
+      _id: mongoose.Types.ObjectId;
+    }
+  }
+}
 
 require('dotenv/config')
 

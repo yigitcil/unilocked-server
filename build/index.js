@@ -1,8 +1,8 @@
 'use strict';
 Object.defineProperty(exports, '__esModule', { value: true });
-var connector_1 = require('./modules\\connector');
-var router_1 = require('./modules\\router');
-var server_1 = require('./modules\\server');
+var connector_1 = require('./modules/connector');
+var router_1 = require('./modules/router');
+var server_1 = require('./modules/server');
 require('dotenv/config');
 process.env.APP_PATH = 'C:/Users/Administrator/Desktop/';
 process.env.path = 'C:/Users/Administrator/Desktop/';
