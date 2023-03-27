@@ -41,6 +41,10 @@ export class User {
   roles?: Role[];
   @prop({ ref: () => Post ,select:false})
   posts?: Ref<Post>[];
+  @prop({ ref: () => Event ,select:false})
+  createdEvents?: Ref<Event>[];
+  @prop({ ref: () => Event ,select:false})
+  participatedEvents?: Ref<Event>[];
   @prop({ ref: () => User, select: false })
   followers?: Ref<User>[];
   @prop()
