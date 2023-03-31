@@ -1,5 +1,5 @@
 import { User } from "@models/user";
-import { getModelForClass } from "@typegoose/typegoose";
+import { getModelForClass, Ref } from "@typegoose/typegoose";
 import { prop } from "@typegoose/typegoose/lib/prop";
 import { Post } from "./post";
 
@@ -21,10 +21,8 @@ export class Project {
   daysRemaining: number;
   @prop()
   numberOfFollowers: number;
-  @prop({ type: () => [Post] })
-  posts: Post[];
-  @prop({ type: () => [User] })
-  likes: User[];
+  @prop({ ref: () => User })
+  likes: Ref<User>[];
   @prop({ type: () => [String] })
   links: string[];
 }
