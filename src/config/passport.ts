@@ -39,7 +39,7 @@ export default class PassportConfig {
     passport.deserializeUser(function (id: string, done) {
       userController
         .byId(id)
-        .then((user: User | null) => {
+        .then((user) => {
           if (user) {
             delete user.password;
           }
@@ -48,6 +48,8 @@ export default class PassportConfig {
         .catch((err) => {
           done(err, null);
         });
+       
+        
     });
   }
 }

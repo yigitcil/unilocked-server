@@ -1,22 +1,28 @@
 import { getModelForClass, Ref } from "@typegoose/typegoose";
 import { prop } from "@typegoose/typegoose/lib/prop";
-
+import { Post } from "./post";
 import { User } from "./user";
 
-export class Post {
+export class Comment {
   @prop()
   text?: string;
+
   @prop()
-  image_url?: any;
+  edited?: boolean;
+
+  @prop({ ref: () => Post })
+  post?: Ref<Post>;
+
+  @prop({ ref: () => User })
+  author?: Ref<User>;
+
   @prop({ ref: () => User })
   likes?: Ref<User>[];
+
   @prop({ ref: () => User })
   dislikes?: Ref<User>[];
-
-  @prop({ref: ()=> Comment})
-  comments?: Ref<Comment>[]
 }
 
-const PostModel = getModelForClass(Post);
+const CommentModel = getModelForClass(Comment);
 
-export { PostModel };
+export { CommentModel };

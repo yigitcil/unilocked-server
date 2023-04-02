@@ -4,7 +4,7 @@ var __importDefault = this && this.__importDefault || function (mod) {
 };
 Object.defineProperty(exports, '__esModule', { value: true });
 exports.Server = void 0;
-var passport_1 = __importDefault(require('..\\config\\passport'));
+var passport_1 = __importDefault(require('../config/passport'));
 var express_1 = __importDefault(require('express'));
 var http_1 = __importDefault(require('http'));
 var express_session_1 = __importDefault(require('express-session'));

@@ -3,30 +3,35 @@ import { getModelForClass, Ref } from "@typegoose/typegoose";
 import { prop } from "@typegoose/typegoose/lib/prop";
 import { Post } from "./post";
 
-export class Project {
+export class Community {
   @prop()
   name: string;
   @prop()
   summary: string;
   @prop()
   description: string;
-  //Target
+
   @prop()
-  currency: string;
+  backdrop: string;
+
   @prop()
-  amount: number;
+  poster: string;
+
   @prop()
   tags: string[];
-  @prop()
-  daysRemaining: number;
-  @prop()
-  numberOfFollowers: number;
+
+  @prop({ ref: () => User })
+  followers: Ref<User>;
+
+  @prop({ ref: () => User })
+  contributors: Ref<User>[];
+
   @prop({ ref: () => User })
   likes: Ref<User>[];
   @prop({ type: () => [String] })
   links: string[];
 }
 
-const ProjectModel = getModelForClass(Project);
+const CommunityModel = getModelForClass(Community);
 
-export {ProjectModel}
+export { CommunityModel };

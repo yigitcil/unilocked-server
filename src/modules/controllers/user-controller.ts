@@ -15,7 +15,7 @@ export class UserController extends BaseController{
     return UserModel.findOne({ email: email });
   }
   public byId(_id: string) {
-    return UserModel.findOne<User>({ _id: new mongoose.Types.ObjectId(_id) });
+    return UserModel.findOne({ _id: new mongoose.Types.ObjectId(_id) });
   }
 
   public byUsername(username: string) {

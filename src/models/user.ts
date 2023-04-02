@@ -1,5 +1,4 @@
-
-import { getModelForClass, prop } from "@typegoose/typegoose";
+import { getModelForClass, prop, Ref } from "@typegoose/typegoose";
 import { Project } from "./project";
 import { University } from "./university";
 import { Post } from "./post";
@@ -18,38 +17,46 @@ export class User {
   about?: string;
   @prop()
   gender?: string;
-  @prop({select:false})
+  @prop({ select: false })
   email?: string; //!
-  @prop({select:false})
+  @prop({ select: false })
   password?: string; //!
-  @prop({select:false})
+  @prop({ select: false })
   created_at?: Date; //!
-  @prop({select:false})
+  @prop({ select: false })
   updated_at?: Date; //!
   @prop()
   background?: string;
   @prop()
   avatar?: string;
-  @prop({select:false})
+  @prop({ select: false })
   available_space?: string; //!;
-  @prop({select:false})
+  @prop({ select: false })
   email_verified_at?: Date; //!;
   @prop()
   display_name?: string;
-  @prop({select:false})
+  @prop({ select: false })
   has_password?: boolean; //!;
   @prop({ type: () => [Role] })
   roles?: Role[];
-  @prop({ type: () => [Post] })
-  posts?: Post[];
-  @prop({ type: () => [User] })
-  followers?: User[];
+  @prop({ ref: () => Post ,select:false})
+  posts?: Ref<Post>[];
+  @prop({ ref: () => Event ,select:false})
+  createdEvents?: Ref<Event>[];
+  @prop({ ref: () => Event ,select:false})
+  participatedEvents?: Ref<Event>[];
+  @prop({ ref: () => User, select: false })
+  followers?: Ref<User>[];
   @prop()
   university?: University;
-  @prop({ type: () => [Project] })
-  projectsParticipated?: Project[];
+  @prop({ ref: () => Post, select: false })
+  projectsParticipated?: Ref<Post>[];
+  @prop({ ref: () => Post, select: false })
+  postsLiked?: Ref<Post>[];
+  @prop({ ref: () => Post, select: false })
+  postsDisliked?: Ref<Post>[];
 }
 
 const UserModel = getModelForClass(User);
 
-export {UserModel}
+export { UserModel };
