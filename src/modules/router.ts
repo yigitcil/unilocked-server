@@ -5,6 +5,7 @@ import e, { Express, Response, Router as ExpressRouter } from "express";
 import { SocietyController } from "./controllers/society-controller";
 import { ProjectController } from "./controllers/project-controller";
 import { PostController } from "./controllers/post-controller";
+import { EventController } from "./controllers/event-controller";
 
 export class Router {
   constructor(private app: Express) {}
@@ -16,6 +17,7 @@ export class Router {
     this.createRoute("society", SocietyController);
     this.createRoute("project", ProjectController);
     this.createRoute("post", PostController);
+    this.createRoute("event", EventController);
   }
 
   public createRoute<Type extends BaseController>(

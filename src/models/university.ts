@@ -1,4 +1,4 @@
-import { getModelForClass, prop } from "@typegoose/typegoose";
+import { Ref, getModelForClass, prop } from "@typegoose/typegoose";
 
 export class University {
     @prop()
@@ -9,6 +9,8 @@ export class University {
     city: string;
     @prop()
     address: string;
+    @prop({ ref: () => Event ,select:false})
+    events?: Ref<Event>[];
 }
 
 const UniversityModel = getModelForClass(University)
