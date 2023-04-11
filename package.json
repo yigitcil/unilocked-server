@@ -40,6 +40,7 @@
     "dotenv": "^16.0.3",
     "express": "^4.17.2",
     "express-session": "^1.17.3",
+    "express-validator": "^6.15.0",
     "gravatar": "^1.8.2",
     "i": "^0.3.7",
     "mongodb": "^4.13.0",
@@ -47,6 +48,7 @@
     "npm": "^8.18.0",
     "passport": "^0.6.0",
     "passport-local": "^1.0.0",
+    "redis": "^4.6.5",
     "slugify": "^1.6.5",
     "uuid": "^8.3.2"
   }
