@@ -6,108 +6,148 @@ import { use } from "passport";
 import BaseController from "./base-controller";
 import { body, checkSchema, param } from "express-validator";
 import { tr } from "@modules/services/translator";
+import ensureAuthorized from "@modules/middleware/ensure-authorized";
+import { Mongoose, Types } from "mongoose";
+import authorize from "@modules/services/authorize";
 
 export default class CommentController extends BaseController {
   listen(router: Router): void {
-    router.post("/:id",checkSchema({
-      message: {
-        isLength: {
-          options: { min: 1 },
+    router.post(
+      "/:id",
+      ensureAuthorized("comments.create"),
+      checkSchema({
+        message: {
+          isLength: {
+            options: { min: 1 },
+          },
+          errorMessage: tr("Comment must be at least 1 character"),
         },
-        errorMessage: tr("Comment must be at least 1 character"),
-      },
-      id : {
-        isMongoId: true,
-        errorMessage: tr("Invalid post id")
-      }
-    }), async (req, res, next) => {
-      const comment = await this.createComment(
-        req.params.id,
-        req.user._id,
-        req.body.message
-      );
-
-      res.send({
-        success: true,
-        data: comment,
-      });
-      next();
-    });
-
-    router.delete("/:id", param('id').isMongoId(),async (req, res, next) => {
-      const result = await this.deleteComment(req.params.id);
-
-      res.send({
-        success: true,
-        data: result,
-      });
-      next();
-    });
-
-    router.post("/:id/edit",checkSchema({
-      message: {
-        isLength: {
-          options: { min: 1 },
+        id: {
+          isMongoId: true,
+          errorMessage: tr("Invalid post id"),
         },
-        errorMessage: tr("Comment must be at least 1 character"),
-      },
-      id : {
-        isMongoId: true,
-        errorMessage: tr("Invalid post id")
-      }
-    }), async (req, res, next) => {
-      const result = await this.editComment(req.params.id, req.body.message);
-
-      res.send({
-        success: true,
-        data: result,
-      });
-      next();
-    });
-
-    router.post("/:id/:reaction",checkSchema({
-      id : {
-        isMongoId: true,
-        errorMessage: tr("Invalid post id")
-      },
-      reaction : {
-        isString: true,
-        errorMessage: tr("Invalid reaction")
-      }
-    }), async (req, res, next) => {
-      if (req.params.reaction !== "like" && req.params.reaction !== "dislike")
-        res.status(404).send({ success: false, error: "Invalid reaction" });
-      else {
-        const result = await this.addReaction(
-          req.user,
+      }),
+      async (req, res, next) => {
+        const comment = await this.createComment(
           req.params.id,
-          req.params.reaction
+          req.user._id,
+          req.body.message
         );
-        res.send({ sucess: true, user: req.user });
+
+        res.send({
+          success: true,
+          data: comment,
+        });
         next();
       }
-    });
+    );
+
+    router.delete(
+      "/:id",
+      ensureAuthorized("comments.view"),
+      param("id").isMongoId(),
+      async (req, res, next) => {
+        const result = await this.deleteComment(req, req.params.id);
+
+        res.send({
+          success: true,
+          data: result,
+        });
+        next();
+      }
+    );
+
+    router.post(
+      "/:id/edit",
+      ensureAuthorized("comments.view"),
+      checkSchema({
+        message: {
+          isLength: {
+            options: { min: 1 },
+          },
+          errorMessage: tr("Comment must be at least 1 character"),
+        },
+        id: {
+          isMongoId: true,
+          errorMessage: tr("Invalid post id"),
+        },
+      }),
+      async (req, res, next) => {
+        const result = await this.editComment(
+          req.user._id,
+          req.params.id,
+          req.body.message
+        );
+
+        res.send({
+          success: true,
+          data: result,
+        });
+        next();
+      }
+    );
+
+    router.post(
+      "/:id/:reaction",
+      ensureAuthorized("comments.view"),
+      checkSchema({
+        id: {
+          isMongoId: true,
+          errorMessage: tr("Invalid post id"),
+        },
+        reaction: {
+          isString: true,
+          errorMessage: tr("Invalid reaction"),
+        },
+      }),
+      async (req, res, next) => {
+        if (req.params.reaction !== "like" && req.params.reaction !== "dislike")
+          res.status(404).send({ success: false, error: "Invalid reaction" });
+        else {
+          const result = await this.addReaction(
+            req.user,
+            req.params.id,
+            req.params.reaction
+          );
+          res.send({ sucess: true, user: req.user });
+          next();
+        }
+      }
+    );
   }
 
-  private async deleteComment(commentID: string) {
+  private async deleteComment(req: Express.Request, commentID: string) {
     const comment = await CommentModel.findById(OID(commentID));
-    await comment.remove();
-    await PostModel.updateOne(
-      { _id: comment.post },
-      { $pull: { comments: OID(commentID) } }
-    );
+
+    if (authorize(req, "comments.delete", comment, "author")) {
+      await comment.remove();
+      await PostModel.updateOne(
+        { _id: comment.post },
+        { $pull: { comments: OID(commentID) } }
+      );
+      return true;
+    }
 
     return comment;
   }
 
   //edit comment
-  public async editComment(commentID: string, message: string) {
+  public async editComment(
+    request: Express.Request,
+    commentID: string,
+    message: string
+  ) {
     this.validateComment(message);
     const comment = await CommentModel.findById(OID(commentID));
-    comment.text = message;
-    comment.edited = true;
-    const updatedComment = await comment.save();
-    return updatedComment;
+
+    if (authorize(request, "comments.edit", comment, "author")) {
+      comment.text = message;
+      comment.edited = true;
+      const updatedComment = await comment.save();
+      return updatedComment;
+    }
+
+    return null;
   }
 
   private async createComment(postID: string, userID, message: string) {
