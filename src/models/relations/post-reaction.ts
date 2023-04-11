@@ -1,8 +1,8 @@
 import { Post } from "@models/post";
 import { User } from "@models/user";
-import { Ref, prop } from "@typegoose/typegoose";
+import { Ref, getModelForClass, prop } from "@typegoose/typegoose";
 
-export class PostReactions {
+export class PostReaction {
   @prop({ ref: () => Post })
   post: Ref<Post>;
 
@@ -12,3 +12,7 @@ export class PostReactions {
   @prop({ ref: () => User })
   user: Ref<User>;
 }
+
+const PostReactionModel = getModelForClass(PostReaction);
+
+export {PostReactionModel}
