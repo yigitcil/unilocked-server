@@ -7,7 +7,7 @@ export class PostReaction {
   post: Ref<Post>;
 
   @prop()
-  type: "like" | "dislike";
+  reaction: "like" | "dislike";
 
   @prop({ ref: () => User })
   user: Ref<User>;

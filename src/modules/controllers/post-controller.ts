@@ -8,6 +8,10 @@ import PaginateService from "@modules/services/paginate";
 import { UserModel } from "@models/user";
 import ensureAuthorized from "@modules/middleware/ensure-authorized";
 import { param } from "express-validator";
+import {
+  PostReaction,
+  PostReactionModel,
+} from "@models/relations/post-reaction";
 
 export class PostController extends BaseController {
   //Get post by ID
@@ -104,42 +108,26 @@ export class PostController extends BaseController {
     const user = userController.byId(reqUser._id);
     const post = await PostModel.findOne({
       _id: new mongoose.Types.ObjectId(postID),
-    })
-      .populate({
-        path: reaction,
-        match: {
-          _id: reqUser._id,
-        },
-      })
-      .exec();
+    }).exec();
 
-    if (reaction === "like") {
-      await PostModel.updateOne(
-        { _id: new mongoose.Types.ObjectId(postID) },
-        post.likes.length === 0
-          ? { $push: { likes: user._id } }
-          : { $pull: { likes: user._id } }
-      );
-      await UserModel.updateOne(
-        { _id: new mongoose.Types.ObjectId(reqUser.id) },
-        post.likes.length === 0
-          ? { $push: { postsLiked: post._id } }
-          : { $pull: { postsLiked: post._id } }
-      );
+    const isLiked = await PostReactionModel.findOne({
+      post: post._id,
+      user: user._id,
+      reaction: reaction,
+    });
+
+    if (isLiked) {
+      await PostReactionModel.deleteOne({
+        post: post._id,
+        user: user._id,
+        reaction: reaction,
+      });
     } else {
-      //Dislike
-      await PostModel.updateOne(
-        { _id: new mongoose.Types.ObjectId(postID) },
-        post.dislikes.length === 0
-          ? { $push: { dislikes: user._id } }
-          : { $pull: { dislikes: user._id } }
-      );
-      await UserModel.updateOne(
-        { _id: new mongoose.Types.ObjectId(reqUser.id) },
-        post.dislikes.length === 0
-          ? { $push: { postsDisliked: post._id } }
-          : { $pull: { postsDisliked: post._id } }
-      );
+      await PostReactionModel.create({
+        post: post._id,
+        user: user._id,
+        reaction: reaction,
+      });
     }
   }
 
