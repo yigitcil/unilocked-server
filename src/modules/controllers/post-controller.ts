@@ -1,11 +1,11 @@
 import { Router } from "express";
 import BaseController from "./base-controller";
 import { UserController } from "./user-controller";
-import { Post, PostModel } from "@models/post";
+import { PostModel } from "@models/post";
 import mongoose from "mongoose";
 import success from "@modules/responses/success";
 import PaginateService from "@modules/services/paginate";
-import { User, UserModel } from "@models/user";
+import { UserModel } from "@models/user";
 import ensureAuthorized from "@modules/middleware/ensure-authorized";
 
 export class PostController extends BaseController {
@@ -43,9 +43,33 @@ export class PostController extends BaseController {
         next();
       }
     });
+
+    //Save the post
+    router.post("/:id/save", async (req, res, next) => {
+      await this.save(req.params.id, req.user._id);
+      res.send({ sucess: true, post: await this.byId(req.params.id) });
+      next();
+    });
+
+    //Delete the post from the saved posts
+    router.post("/:id/deletebookmark", async (req, res, next) => {
+      await this.deleteBookmark(req.params.id, req.user._id);
+      res.send({ sucess: true, post: await this.byId(req.params.id) });
+      next();
+    });
+    
+    //Check if the user has saved the post.
+    router.get("/:id/issaved", async(req, res, next) => {
+      const result = await this.isSaved(req.params.id, req.user._id);
+      res.send({ 
+        success: true,
+        data: result
+       });
+       next();
+    });
   }
 
-  public byId(_id: string) {
+  public async byId(_id: string) {
     return PostModel.findOne({ _id: new mongoose.Types.ObjectId(_id) });
   }
 
@@ -82,5 +106,17 @@ export class PostController extends BaseController {
         post.dislikes.length === 0 ? { $push: { postsDisliked: post._id } } : { $pull: { postsDisliked: post._id } }
       );
     }
+  }
+
+  public async save(postID: string, userID: mongoose.Types.ObjectId) {
+    await UserModel.updateOne({ _id: userID }, { $push: { postsSaved: postID } })
+  }
+
+  public async deleteBookmark(postID: string, userID: mongoose.Types.ObjectId) {
+    await UserModel.updateOne({ _id: userID }, { $pull: { postsSaved: postID } })
+  }
+
+  public async isSaved(postID: string, userID: mongoose.Types.ObjectId): Promise<boolean> {
+    return await UserModel.findOne({ _id: userID, postsSaved: { $in: [postID] } }).count() > 0;
   }
 }

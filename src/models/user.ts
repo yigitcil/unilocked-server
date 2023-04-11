@@ -55,6 +55,8 @@ export class User {
   postsLiked?: Ref<Post>[];
   @prop({ ref: () => Post, select: false })
   postsDisliked?: Ref<Post>[];
+  @prop({ ref: () => Post, select: false })
+  postsSaved?: Ref<Post>[];
 }
 
 const UserModel = getModelForClass(User);
