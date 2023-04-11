@@ -10,6 +10,7 @@ var express_1 = require('express');
 var society_controller_1 = require('./controllers/society-controller');
 var project_controller_1 = require('./controllers/project-controller');
 var post_controller_1 = require('./controllers/post-controller');
+var event_controller_1 = require('./controllers/event-controller');
 var Router = (function () {
     function Router(app) {
         this.app = app;
@@ -20,6 +21,7 @@ var Router = (function () {
         this.createRoute('society', society_controller_1.SocietyController);
         this.createRoute('project', project_controller_1.ProjectController);
         this.createRoute('post', post_controller_1.PostController);
+        this.createRoute('event', event_controller_1.EventController);
     };
     Router.prototype.createRoute = function (path, controller, base) {
         if (path === void 0) {

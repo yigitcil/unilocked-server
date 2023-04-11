@@ -8,11 +8,7 @@ export class Post {
   text?: string;
   @prop()
   image_url?: any;
-  @prop({ ref: () => User })
-  likes?: Ref<User>[];
-  @prop({ ref: () => User })
-  dislikes?: Ref<User>[];
-
+  
   @prop({ref: ()=> Comment})
   comments?: Ref<Comment>[]
 }

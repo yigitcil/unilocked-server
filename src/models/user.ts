@@ -51,10 +51,9 @@ export class User {
   university?: University;
   @prop({ ref: () => Post, select: false })
   projectsParticipated?: Ref<Post>[];
+ 
   @prop({ ref: () => Post, select: false })
-  postsLiked?: Ref<Post>[];
-  @prop({ ref: () => Post, select: false })
-  postsDisliked?: Ref<Post>[];
+  postsSaved?: Ref<Post>[];
 }
 
 const UserModel = getModelForClass(User);
