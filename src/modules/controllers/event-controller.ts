@@ -225,7 +225,10 @@ export class EventController extends BaseController {
     public async participants(eventID) {
         return EventModel.findOne({ _id: OID(eventID) }).select('participants').populate({
             path: 'participants',
-            select: ['username', 'first_name', 'last_name', 'avatar_url']
+            select: ['username', 'first_name', 'last_name', 'avatar_url'],
+            options: {
+                
+            }
         }).exec();
     }
 }

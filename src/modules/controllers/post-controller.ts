@@ -6,6 +6,7 @@ import mongoose from "mongoose";
 import success from "@modules/responses/success";
 import PaginateService from "@modules/services/paginate";
 import { User, UserModel } from "@models/user";
+import ensureAuthorized from "@modules/middleware/ensure-authorized";
 
 export class PostController extends BaseController {
   //Get post by ID
@@ -21,7 +22,7 @@ export class PostController extends BaseController {
     });
 
     //Get posts
-    router.get("/", async (req, res, next) => {
+    router.get("/", ensureAuthorized("posts.view"),async (req, res, next) => {
       const posts = PostModel.find();
 
       res.send(success(await PaginateService.paginate(req, PostModel, posts)));
