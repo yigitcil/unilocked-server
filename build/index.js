@@ -10,6 +10,7 @@ var connector = new connector_1.Connector();
 connector.connect(function () {
     var server = new server_1.Server();
     server.listen(3000, function (app) {
+        //RedisService.init();
         var router = new router_1.Router(app);
         router.listen();
     });

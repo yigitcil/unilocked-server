@@ -1,5 +1,5 @@
 import RedisClient from '@redis/client/dist/lib/client';
-import redis from 'redis'
+import * as redis from 'redis';
 
 export class RedisService {
 

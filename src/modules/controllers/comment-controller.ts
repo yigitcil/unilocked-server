@@ -109,7 +109,7 @@ export default class CommentController extends BaseController {
             req.params.id,
             req.params.reaction
           );
-          res.send({ sucess: true, user: req.user });
+          res.send({ success: true, user: req.user });
           next();
         }
       }
@@ -162,7 +162,7 @@ export default class CommentController extends BaseController {
     const savedComment = await newComment.save();
 
     //Add comment to post
-    PostModel.updateOne(
+    await PostModel.updateOne(
       { _id: OID(postID) },
       { $push: { comments: savedComment._id } }
     );
