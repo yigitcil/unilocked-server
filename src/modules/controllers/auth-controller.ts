@@ -62,6 +62,9 @@ export default class AuthController extends BaseController {
       if (!first_name || !last_name || !email || !password || !password2) {
         errors.push({ id: 0, msg: tr("Please fill in all fields") });
       }
+
+      
+
       //check if match
       if (password !== password2) {
         errors.push({ id: 1, msg: tr("passwords dont match") });

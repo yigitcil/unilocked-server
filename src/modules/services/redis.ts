@@ -27,6 +27,8 @@ export class RedisService {
             return JSON.parse(cachedValue);
         }
 
+    
+      
         const result = await func();
 
         const options  = {}
