@@ -27,6 +27,7 @@ export class UserProfileController extends BaseController {
     router.get("/", ensureAuthorized("users.view"), async (req, res, next) => {
       const users = await UserModel.find();
 
+    
       res.send(success(await PaginateService.paginate(req, UserModel, users)));
       next();
     });
@@ -36,6 +37,7 @@ export class UserProfileController extends BaseController {
       ensureAuthorized("users.view"),
       param("username").isString().isLength({ min: 2 }),
       async (req, res, next) => {
+        
         if (
           req.user._id.toString() !==
           (await this.byUserName(req.params.username)).id

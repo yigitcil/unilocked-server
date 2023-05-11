@@ -2,13 +2,13 @@ import { getModelForClass, mongoose } from "@typegoose/typegoose";
 import { prop } from "@typegoose/typegoose/lib/prop";
 
 export class Role {
-    @prop()
+    @prop({index: true})
     name: string;
     @prop()
     color: string;
     @prop()
     icon: string;
-    @prop()
+    @prop({index: true})
     default: boolean;
     @prop()
     guests: boolean;
@@ -18,7 +18,7 @@ export class Role {
     updated_at: Date;
     @prop()
     description: string;
-    @prop()
+    @prop({index: true})
     type: string;
     @prop()
     internal: number;

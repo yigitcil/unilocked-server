@@ -5,7 +5,7 @@ import { Post } from "./post";
 import { Role } from "@models/role";
 
 export class User {
-  @prop()
+  @prop({ index: true })
   username?: string; // slug
   @prop()
   first_name?: string;
@@ -39,11 +39,11 @@ export class User {
   has_password?: boolean; //!;
   @prop({ type: () => [Role] })
   roles?: Role[];
-  @prop({ ref: () => Post ,select:false})
+  @prop({ ref: () => Post, select: false })
   posts?: Ref<Post>[];
-  @prop({ ref: () => Event ,select:false})
+  @prop({ ref: () => Event, select: false })
   createdEvents?: Ref<Event>[];
-  @prop({ ref: () => Event ,select:false})
+  @prop({ ref: () => Event, select: false })
   participatedEvents?: Ref<Event>[];
   @prop({ ref: () => User, select: false })
   followers?: Ref<User>[];
@@ -51,7 +51,7 @@ export class User {
   university?: University;
   @prop({ ref: () => Post, select: false })
   projectsParticipated?: Ref<Post>[];
- 
+
   @prop({ ref: () => Post, select: false })
   postsSaved?: Ref<Post>[];
 }

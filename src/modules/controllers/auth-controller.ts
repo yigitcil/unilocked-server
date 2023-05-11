@@ -10,6 +10,7 @@ import gravatar from "gravatar";
 import jsonError from "@modules/middleware/json-error";
 import slugify from "slugify";
 import { body, checkSchema } from "express-validator";
+import { RoleModel } from "@models/role";
 
 export default class AuthController extends BaseController {
   listen(router: Router): void {
@@ -17,7 +18,7 @@ export default class AuthController extends BaseController {
       res.send({ success: true, user: req.user });
     });
 
-    router.post("/logout",ensureAuthenticated, (req, res) => {
+    router.post("/logout", ensureAuthenticated, (req, res) => {
       req.logOut((err) => {
         res.send({ success: !err, error: err });
       });
@@ -55,26 +56,31 @@ export default class AuthController extends BaseController {
       jsonError
     );
 
-    router.post("/register", body("email").isEmail(), (req, res, next) => {
-      const { first_name, last_name, email, password, password2 } = req.body;
-      let errors: { id: number; msg: string }[] = [];
+    router.post(
+      "/register",
+      body("email").isEmail(),
+      async (req, res, next) => {
+        const { first_name, last_name, email, password, password2 } = req.body;
+        let errors: { id: number; msg: string }[] = [];
 
-      if (!first_name || !last_name || !email || !password || !password2) {
-        errors.push({ id: 0, msg: tr("Please fill in all fields") });
-      }
-      //check if match
-      if (password !== password2) {
-        errors.push({ id: 1, msg: tr("passwords dont match") });
-      }
+        if (!first_name || !last_name || !email || !password || !password2) {
+          errors.push({ id: 0, msg: tr("Please fill in all fields") });
+        }
 
-      //check if password is more than 6 characters
-      if (password.length < 6) {
-        errors.push({ id: 2, msg: tr("password atleast 6 characters") });
-      }
-      if (errors.length > 0) {
-        res.status(403).send({ errors: errors });
-      } else {
-        UserModel.findOne({ email: email }).then((user) => {
+        //check if match
+        if (password !== password2) {
+          errors.push({ id: 1, msg: tr("passwords dont match") });
+        }
+
+        //check if password is more than 6 characters
+        if (password.length < 6) {
+          errors.push({ id: 2, msg: tr("password atleast 6 characters") });
+        }
+        if (errors.length > 0) {
+          res.status(403).send({ errors: errors });
+        } else {
+          const user = await UserModel.findOne({ email: email });
+
           if (user) {
             errors.push({ id: 3, msg: tr("email already registered") });
             res.status(403).send({ errors: errors });
@@ -89,6 +95,7 @@ export default class AuthController extends BaseController {
               username: slugify(first_name + " " + last_name, {
                 lower: true,
               }),
+              roles: [await RoleModel.findOne({ default: true })],
             };
             bcrypt.genSalt(10, (err, salt) =>
               bcrypt.hash(newUser.password, salt, async (err, hash) => {
@@ -105,8 +112,8 @@ export default class AuthController extends BaseController {
               })
             );
           }
-        });
+        }
       }
-    });
+    );
   }
 }
