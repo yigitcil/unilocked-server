@@ -3,7 +3,9 @@ import { Strategy as LocalStrategy } from "passport-local";
 import { UserController } from "../modules/controllers/user-controller";
 import bcrypt from "bcrypt";
 import { tr } from "../modules/services/translator";
-import { User } from "@models/user";
+import { User } from "../models/user";
+import e from "connect-flash";
+import { UserModel } from "../resolved-models";
 
 export default class PassportConfig {
   public init() {
@@ -11,13 +13,16 @@ export default class PassportConfig {
     passport.use(
       new LocalStrategy({ usernameField: "email" }, (email, password, done) => {
         //match user
-        userController
-          .byEmail(email)
+        UserModel.find({ email: email })
           .select("+password")
-          .then((user) => {
-            if (!user) {
+          .populate("roles")
+          .exec()
+          .then((users) => {
+           
+            if (users.length == 0) {
               return done(null, false, { message: tr("Email not registered") });
             }
+            const user = users[0];
             //math passwords
             bcrypt.compare(password, user.password, (err, isMatch) => {
               if (err) throw err;
@@ -37,9 +42,11 @@ export default class PassportConfig {
       done(null, user._id);
     });
     passport.deserializeUser(function (id: string, done) {
-      userController
-        .byId(id)
-        .then((user) => {
+      UserModel
+        .findById(id)
+        .populate("roles")
+        .exec()
+        .then(async (user: any) => {
           if (user) {
             delete user.password;
           }
@@ -48,8 +55,6 @@ export default class PassportConfig {
         .catch((err) => {
           done(err, null);
         });
-       
-        
     });
   }
 }

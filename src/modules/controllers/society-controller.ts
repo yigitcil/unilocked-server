@@ -1,11 +1,13 @@
-import { Society, SocietyModel } from "@models/society";
-import success from "@modules/responses/success";
-import PaginateService from "@modules/services/paginate";
 import { Router } from "express";
-import mongoose from "mongoose";
-import BaseController from "./base-controller";
 import { param } from "express-validator";
-import ensureAuthorized from "@modules/middleware/ensure-authorized";
+import mongoose from "mongoose";
+import {  Society } from "../../models/society";
+import ensureAuthorized from "../middleware/ensure-authorized";
+import success from "../responses/success";
+import PaginateService from "../services/paginate";
+import BaseController from "./base-controller";
+import { SocietyModel } from "../../resolved-models";
+
 
 export class SocietyController extends BaseController {
     listen(router: Router): void {

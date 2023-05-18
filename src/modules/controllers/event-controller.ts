@@ -1,15 +1,16 @@
 import { Router } from "express";
-import BaseController from "./base-controller";
-import { EventModel } from "@models/event";
-import success from "@modules/responses/success";
-import PaginateService from "@modules/services/paginate";
+import { param, checkSchema } from "express-validator";
 import mongoose from "mongoose";
-import { UserModel } from "@models/user";
-import { OID } from "@modules/helpers/generate-object-id";
-import { UniversityModel } from "@models/university";
-import ensureAuthorized from "@modules/middleware/ensure-authorized";
-import { checkSchema, param } from "express-validator";
-import authorize from "@modules/services/authorize";
+
+import { OID } from "../helpers/generate-object-id";
+import ensureAuthorized from "../middleware/ensure-authorized";
+import success from "../responses/success";
+import PaginateService from "../services/paginate";
+import BaseController from "./base-controller";
+import authorize from "../services/authorize";
+import { EventModel, UserModel, UniversityModel } from "../../resolved-models";
+
+
 
 export class EventController extends BaseController {
   listen(router: Router): void {

@@ -1,4 +1,4 @@
-import { tr } from "@modules/services/translator";
+import { tr } from "../../modules/services/translator";
 import { NextFunction, Request, Response } from "express";
 
 export default function ensureAuthenticated(

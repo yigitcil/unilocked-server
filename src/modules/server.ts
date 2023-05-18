@@ -1,4 +1,4 @@
-import PassportConfig from "@config/passport";
+import PassportConfig from "../config/passport";
 import express from "express";
 import fs from "fs";
 import http from "http";

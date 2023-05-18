@@ -1,7 +1,6 @@
 import { getModelForClass, Ref } from "@typegoose/typegoose";
 import { prop } from "@typegoose/typegoose/lib/prop";
-
-import { User } from "./user";
+import { Comment } from "./comment";
 
 export class Post {
   @prop()
@@ -12,7 +11,3 @@ export class Post {
   @prop({ref: ()=> Comment})
   comments?: Ref<Comment>[]
 }
-
-const PostModel = getModelForClass(Post);
-
-export { PostModel };

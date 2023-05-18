@@ -1,12 +1,13 @@
-import { User, UserModel } from "@models/user";
-import success from "@modules/responses/success";
-import PaginateService from "@modules/services/paginate";
+
 import { Router } from "express";
+import { param } from "express-validator";
+import mongoose from "mongoose";
+import ensureAuthorized from "../middleware/ensure-authorized";
+import success from "../responses/success";
+import PaginateService from "../services/paginate";
 import BaseController from "./base-controller";
 import { UserController } from "./user-controller";
-import mongoose from "mongoose";
-import ensureAuthorized from "@modules/middleware/ensure-authorized";
-import { param } from "express-validator";
+import { UserModel } from "../../resolved-models";
 
 export class UserProfileController extends BaseController {
   listen(router: Router): void {

@@ -4,20 +4,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Connector = void 0;
-var mongoose_1 = __importDefault(require("mongoose"));
-var Connector = /** @class */ (function () {
-    function Connector() {
-    }
-    Connector.prototype.connect = function (callback) {
+const mongoose_1 = __importDefault(require("mongoose"));
+class Connector {
+    connect(callback) {
         mongoose_1.default
             .connect(process.env.DATABASE)
-            .then(function () {
+            .then(() => {
             callback();
         });
-    };
-    Connector.prototype.disconnect = function () {
+    }
+    disconnect() {
         mongoose_1.default.disconnect();
-    };
-    return Connector;
-}());
+    }
+}
 exports.Connector = Connector;
