@@ -1,16 +1,16 @@
-import { User, UserModel } from "@models/user";
-import BaseController from "@modules/controllers/base-controller";
+import { User, UserModel } from "../../models/user";
+import BaseController from "../../modules/controllers/base-controller";
 import { Router } from "express";
 import { Collection } from "mongodb";
 import passport from "passport";
 import bcrypt from "bcrypt";
-import ensureAuthenticated from "@modules/middleware/ensure-authenticated";
-import { tr } from "@modules/services/translator";
+import ensureAuthenticated from "../../modules/middleware/ensure-authenticated";
+import { tr } from "../../modules/services/translator";
 import gravatar from "gravatar";
-import jsonError from "@modules/middleware/json-error";
+import jsonError from "../../modules/middleware/json-error";
 import slugify from "slugify";
 import { body, checkSchema } from "express-validator";
-import { RoleModel } from "@models/role";
+import { RoleModel } from "../../models/role";
 
 export default class AuthController extends BaseController {
   listen(router: Router): void {
@@ -95,7 +95,7 @@ export default class AuthController extends BaseController {
               username: slugify(first_name + " " + last_name, {
                 lower: true,
               }),
-              roles: [await RoleModel.findOne({ default: true })],
+              roles: [(await RoleModel.findOne({ default: true }))._id],
             };
             bcrypt.genSalt(10, (err, salt) =>
               bcrypt.hash(newUser.password, salt, async (err, hash) => {

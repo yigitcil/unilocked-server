@@ -13,7 +13,7 @@ export default function authorize(
   }
 
   const permissions = new Set<string>(); //To avoid duplicate permissions.
-  req.user?.roles?.forEach((role) => {
+  req.user?.roles?.forEach((role:any) => {
     role.permissions.forEach((permission) => {
       permissions.add(permission); //Get all the permissions the user has.
     });

@@ -1,11 +1,13 @@
-import { Project, ProjectModel } from "@models/project";
-import success from "@modules/responses/success";
-import PaginateService from "@modules/services/paginate";
 import { Router } from "express";
-import mongoose from "mongoose";
-import BaseController from "./base-controller";
-import ensureAuthorized from "@modules/middleware/ensure-authorized";
 import { param } from "express-validator";
+import mongoose from "mongoose";
+import { ProjectModel, Project } from "../../models/project";
+import ensureAuthorized from "../middleware/ensure-authorized";
+import success from "../responses/success";
+import PaginateService from "../services/paginate";
+import BaseController from "./base-controller";
+
+
 
 export class ProjectController extends BaseController {
   listen(router: Router): void {

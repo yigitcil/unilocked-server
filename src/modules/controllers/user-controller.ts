@@ -1,7 +1,8 @@
-import { User, UserModel } from "@models/user";
-import BaseController from "@modules/controllers/base-controller";
+
 import { Router } from "express";
 import mongoose from "mongoose";
+import BaseController from "./base-controller";
+import { UserModel } from "../../models/user";
 
 
 export class UserController extends BaseController{

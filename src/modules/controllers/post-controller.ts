@@ -1,17 +1,15 @@
 import { Router } from "express";
 import BaseController from "./base-controller";
 import { UserController } from "./user-controller";
-import { PostModel } from "@models/post";
-import mongoose from "mongoose";
-import success from "@modules/responses/success";
-import PaginateService from "@modules/services/paginate";
-import { UserModel } from "@models/user";
-import ensureAuthorized from "@modules/middleware/ensure-authorized";
 import { param } from "express-validator";
-import {
-  PostReaction,
-  PostReactionModel,
-} from "@models/relations/post-reaction";
+import mongoose from "mongoose";
+import { PostModel } from "../../models/post";
+import { PostReactionModel } from "../../models/relations/post-reaction";
+import { UserModel } from "../../models/user";
+import ensureAuthorized from "../middleware/ensure-authorized";
+import success from "../responses/success";
+import PaginateService from "../services/paginate";
+
 
 export class PostController extends BaseController {
   //Get post by ID

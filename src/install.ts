@@ -1,6 +1,6 @@
-import { Role, RoleModel } from "@models/role";
-import { UserModel } from "@models/user";
-import { Connector } from "@modules/connector";
+import { Role, RoleModel } from "./models/role";
+import { UserModel } from "./models/user";
+import { Connector } from "./modules/connector";
 
 require("dotenv/config");
 

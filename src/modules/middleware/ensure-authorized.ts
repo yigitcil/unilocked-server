@@ -1,5 +1,5 @@
-import { User } from "@models/user";
-import { tr } from "@modules/services/translator";
+import { User } from "../../models/user";
+import { tr } from "../../modules/services/translator";
 import { Request, Response, NextFunction } from "express";
 
 export default function ensureAuthorized(
@@ -7,10 +7,10 @@ export default function ensureAuthorized(
 ) {
 
   return (req: Request, res: Response, next: NextFunction) => {
-    const user = req.user as User;
+    const user = req.user;
     const permissions = new Set<string>(); //To avoid duplicate permissions.
 
-    user?.roles?.forEach(role => {
+    user?.roles?.forEach((role:any) => {
       role.permissions.forEach(permission => {
         permissions.add(permission); //Get all the permissions the user has.
       })

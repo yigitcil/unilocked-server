@@ -1,6 +1,6 @@
-import AuthController from "@modules/controllers/auth-controller";
-import BaseController from "@modules/controllers/base-controller";
-import { UserProfileController } from "@modules/controllers/user-profile-controller";
+import AuthController from "../modules/controllers/auth-controller";
+import BaseController from "../modules/controllers/base-controller";
+import { UserProfileController } from "../modules/controllers/user-profile-controller";
 import e, { Express, Response, Router as ExpressRouter } from "express";
 import { SocietyController } from "./controllers/society-controller";
 import { ProjectController } from "./controllers/project-controller";

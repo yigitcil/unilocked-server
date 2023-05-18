@@ -1,8 +1,9 @@
-import { getModelForClass, prop, Ref } from "@typegoose/typegoose";
 import { Project } from "./project";
 import { University } from "./university";
 import { Post } from "./post";
-import { Role } from "@models/role";
+import { Role } from "./role";
+import { getModelForClass, prop, Ref } from "@typegoose/typegoose";
+
 
 export class User {
   @prop({ index: true })
@@ -37,8 +38,8 @@ export class User {
   display_name?: string;
   @prop({ select: false })
   has_password?: boolean; //!;
-  @prop({ type: () => [Role] })
-  roles?: Role[];
+  @prop({ ref: () => Role })
+  roles?: Ref<Role>[];
   @prop({ ref: () => Post, select: false })
   posts?: Ref<Post>[];
   @prop({ ref: () => Event, select: false })
