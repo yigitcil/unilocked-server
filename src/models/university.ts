@@ -13,6 +13,3 @@ export class University {
     events?: Ref<Event>[];
 }
 
-const UniversityModel = getModelForClass(University)
-
-export {UniversityModel}

@@ -30,6 +30,4 @@ export class Society {
     links?: string[]; //Social media profiles etc.
 }
 
-const SocietyModel = getModelForClass(Society)
 
-export {SocietyModel}

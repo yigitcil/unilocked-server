@@ -1,5 +1,4 @@
-import { CommentModel } from "../../models/comment";
-import { PostModel } from "../../models/post";
+
 import { OID } from "../../modules/helpers/generate-object-id";
 import { Router } from "express";
 import { use } from "passport";
@@ -9,6 +8,7 @@ import { tr } from "../../modules/services/translator";
 import ensureAuthorized from "../../modules/middleware/ensure-authorized";
 import { Mongoose, Types } from "mongoose";
 import authorize from "../../modules/services/authorize";
+import { CommentModel, PostModel } from "../../resolved-models";
 
 export default class CommentController extends BaseController {
   listen(router: Router): void {

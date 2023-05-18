@@ -1,4 +1,4 @@
-import { User, UserModel } from "../../models/user";
+import { User } from "../../models/user";
 import BaseController from "../../modules/controllers/base-controller";
 import { Router } from "express";
 import { Collection } from "mongodb";
@@ -10,7 +10,7 @@ import gravatar from "gravatar";
 import jsonError from "../../modules/middleware/json-error";
 import slugify from "slugify";
 import { body, checkSchema } from "express-validator";
-import { RoleModel } from "../../models/role";
+import { UserModel, RoleModel } from "../../resolved-models";
 
 export default class AuthController extends BaseController {
   listen(router: Router): void {

@@ -3,12 +3,11 @@ import BaseController from "./base-controller";
 import { UserController } from "./user-controller";
 import { param } from "express-validator";
 import mongoose from "mongoose";
-import { PostModel } from "../../models/post";
 import { PostReactionModel } from "../../models/relations/post-reaction";
-import { UserModel } from "../../models/user";
 import ensureAuthorized from "../middleware/ensure-authorized";
 import success from "../responses/success";
 import PaginateService from "../services/paginate";
+import { PostModel, UserModel } from "../../resolved-models";
 
 
 export class PostController extends BaseController {
@@ -32,7 +31,6 @@ export class PostController extends BaseController {
     //Get posts
     router.get("/", ensureAuthorized("posts.view"), async (req, res, next) => {
       const posts = PostModel.find();
-
       res.send(success(await PaginateService.paginate(req, PostModel, posts)));
       next();
     });

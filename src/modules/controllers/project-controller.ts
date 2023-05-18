@@ -1,11 +1,12 @@
 import { Router } from "express";
 import { param } from "express-validator";
 import mongoose from "mongoose";
-import { ProjectModel, Project } from "../../models/project";
+import { Project } from "../../models/project";
 import ensureAuthorized from "../middleware/ensure-authorized";
 import success from "../responses/success";
 import PaginateService from "../services/paginate";
 import BaseController from "./base-controller";
+import { ProjectModel } from "../../resolved-models";
 
 
 

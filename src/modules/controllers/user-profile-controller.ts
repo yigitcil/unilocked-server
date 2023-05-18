@@ -2,12 +2,12 @@
 import { Router } from "express";
 import { param } from "express-validator";
 import mongoose from "mongoose";
-import { UserModel } from "../../models/user";
 import ensureAuthorized from "../middleware/ensure-authorized";
 import success from "../responses/success";
 import PaginateService from "../services/paginate";
 import BaseController from "./base-controller";
 import { UserController } from "./user-controller";
+import { UserModel } from "../../resolved-models";
 
 export class UserProfileController extends BaseController {
   listen(router: Router): void {

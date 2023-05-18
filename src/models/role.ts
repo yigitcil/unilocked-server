@@ -27,6 +27,3 @@ export class Role {
   permissions: mongoose.Types.Array<string>;
 }
 
-const RoleModel = getModelForClass(Role);
-
-export { RoleModel };

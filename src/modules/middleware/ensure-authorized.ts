@@ -17,7 +17,7 @@ export default function ensureAuthorized(
     });
 
     if (permissions.has(permission)) {
-      return next;
+      return next();
     }
 
     res

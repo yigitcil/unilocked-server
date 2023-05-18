@@ -4,43 +4,36 @@ var __importDefault = this && this.__importDefault || function (mod) {
 };
 Object.defineProperty(exports, '__esModule', { value: true });
 exports.Router = void 0;
-var auth_controller_1 = __importDefault(require('./controllers/auth-controller'));
-var user_profile_controller_1 = require('./controllers/user-profile-controller');
-var express_1 = require('express');
-var society_controller_1 = require('./controllers/society-controller');
-var project_controller_1 = require('./controllers/project-controller');
-var post_controller_1 = require('./controllers/post-controller');
-var event_controller_1 = require('./controllers/event-controller');
-var Router = (function () {
-    function Router(app) {
+const auth_controller_1 = __importDefault(require('./controllers/auth-controller'));
+const user_profile_controller_1 = require('./controllers/user-profile-controller');
+const express_1 = require('express');
+const society_controller_1 = require('./controllers/society-controller');
+const project_controller_1 = require('./controllers/project-controller');
+const post_controller_1 = require('./controllers/post-controller');
+const event_controller_1 = require('./controllers/event-controller');
+class Router {
+    constructor(app) {
         this.app = app;
     }
-    Router.prototype.listen = function () {
+    listen() {
         this.createRoute('auth', auth_controller_1.default);
         this.createRoute('user-profile', user_profile_controller_1.UserProfileController);
         this.createRoute('society', society_controller_1.SocietyController);
         this.createRoute('project', project_controller_1.ProjectController);
-        this.createRoute('post', post_controller_1.PostController);
+        this.createRoute('posts', post_controller_1.PostController);
         this.createRoute('event', event_controller_1.EventController);
-    };
-    Router.prototype.createRoute = function (path, controller, base) {
-        if (path === void 0) {
-            path = null;
-        }
-        if (base === void 0) {
-            base = '/api/';
-        }
-        var router = (0, express_1.Router)();
+    }
+    createRoute(path = null, controller, base = '/api/') {
+        const router = (0, express_1.Router)();
         new controller().listen(router);
         if (path) {
             this.app.use(base + path, router);
         } else {
             this.app.use(base, router);
         }
-    };
-    Router.prototype.error = function (res) {
+    }
+    error(res) {
         res.send({ success: false });
-    };
-    return Router;
-})();
+    }
+}
 exports.Router = Router;

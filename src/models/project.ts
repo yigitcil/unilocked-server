@@ -27,6 +27,3 @@ export class Project {
   links: string[];
 }
 
-const ProjectModel = getModelForClass(Project);
-
-export {ProjectModel}

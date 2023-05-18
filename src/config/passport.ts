@@ -3,8 +3,9 @@ import { Strategy as LocalStrategy } from "passport-local";
 import { UserController } from "../modules/controllers/user-controller";
 import bcrypt from "bcrypt";
 import { tr } from "../modules/services/translator";
-import { User, UserModel } from "../models/user";
+import { User } from "../models/user";
 import e from "connect-flash";
+import { UserModel } from "../resolved-models";
 
 export default class PassportConfig {
   public init() {

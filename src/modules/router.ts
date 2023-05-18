@@ -16,7 +16,7 @@ export class Router {
     this.createRoute("user-profile", UserProfileController);
     this.createRoute("society", SocietyController);
     this.createRoute("project", ProjectController);
-    this.createRoute("post", PostController);
+    this.createRoute("posts", PostController);
     this.createRoute("event", EventController);
   }
 

@@ -5,24 +5,20 @@ import { User } from "./user";
 
 export class Comment {
   @prop()
-  text?: string;
+  text: string;
 
   @prop()
-  edited?: boolean;
+  edited: boolean;
 
   @prop({ ref: () => Post })
-  post?: Ref<Post>;
+  post: Ref<Post>;
 
   @prop({ ref: () => User })
-  author?: Ref<User>;
+  author: Ref<User>;
 
   @prop({ ref: () => User })
-  likes?: Ref<User>[];
+  likes: Ref<User>[];
 
   @prop({ ref: () => User })
-  dislikes?: Ref<User>[];
+  dislikes: Ref<User>[];
 }
-
-const CommentModel = getModelForClass(Comment);
-
-export { CommentModel };

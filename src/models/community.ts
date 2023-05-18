@@ -32,6 +32,3 @@ export class Community {
   links: string[];
 }
 
-const CommunityModel = getModelForClass(Community);
-
-export { CommunityModel };

@@ -31,5 +31,3 @@ export class ProjectPosting {
   created_at: Date;
 }
 
-const ProjectPostingModel = getModelForClass(ProjectPosting)
-export {ProjectPostingModel}

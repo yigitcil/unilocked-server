@@ -2,7 +2,7 @@
 import { Router } from "express";
 import mongoose from "mongoose";
 import BaseController from "./base-controller";
-import { UserModel } from "../../models/user";
+import { UserModel } from "../../resolved-models";
 
 
 export class UserController extends BaseController{

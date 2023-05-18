@@ -1,11 +1,12 @@
 import { Router } from "express";
 import { param } from "express-validator";
 import mongoose from "mongoose";
-import { SocietyModel, Society } from "../../models/society";
+import {  Society } from "../../models/society";
 import ensureAuthorized from "../middleware/ensure-authorized";
 import success from "../responses/success";
 import PaginateService from "../services/paginate";
 import BaseController from "./base-controller";
+import { SocietyModel } from "../../resolved-models";
 
 
 export class SocietyController extends BaseController {

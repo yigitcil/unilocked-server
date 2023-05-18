@@ -26,6 +26,3 @@ export class Event {
     participants?: Ref<User>[];
 }
 
-const EventModel = getModelForClass(Event);
-
-export { EventModel };

@@ -4,13 +4,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Server = void 0;
-var passport_1 = __importDefault(require("../config/passport"));
-var express_1 = __importDefault(require("express"));
-var http_1 = __importDefault(require("http"));
-var express_session_1 = __importDefault(require("express-session"));
-var passport_2 = __importDefault(require("passport"));
-var connect_flash_1 = __importDefault(require("connect-flash"));
-var Server = /** @class */ (function () {
+const passport_1 = __importDefault(require("../config/passport"));
+const express_1 = __importDefault(require("express"));
+const http_1 = __importDefault(require("http"));
+const express_session_1 = __importDefault(require("express-session"));
+const passport_2 = __importDefault(require("passport"));
+const connect_flash_1 = __importDefault(require("connect-flash"));
+class Server {
     /*private privateKey = fs.readFileSync(
       "C:/Certbot/live/tau-video.xyz/privkey.pem",
       "utf8"
@@ -29,24 +29,23 @@ var Server = /** @class */ (function () {
       cert: this.certificate,
       ca: this.ca,
     };*/
-    function Server() {
+    constructor() {
         this.app = (0, express_1.default)();
         this.use();
     }
-    Server.prototype.listen = function (port, callback) {
-        var _this = this;
-        var httpServer = http_1.default.createServer(this.app);
+    listen(port, callback) {
+        const httpServer = http_1.default.createServer(this.app);
         //const httpsServer = https.createServer(this.credentials, this.app);
-        httpServer.listen(port, function () {
+        httpServer.listen(port, () => {
             console.log("HTTP Server running on port 80");
-            callback(_this.app);
+            callback(this.app);
         });
         /*httpsServer.listen(443, () => {
           console.log("HTTP Server running on port 443");
           callback(this.app);
         });*/
-    };
-    Server.prototype.use = function () {
+    }
+    use() {
         new passport_1.default().init();
         this.app.use(express_1.default.urlencoded({ extended: false }));
         this.app.use((0, express_session_1.default)({
@@ -65,13 +64,12 @@ var Server = /** @class */ (function () {
         /**
          * For Cors
          */
-        this.app.use("*", function (req, res, next) {
+        this.app.use("*", (req, res, next) => {
             res.header("Access-Control-Allow-Origin", "*");
             res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
             res.header("Access-Control-Allow-Headers", "Content-Type, Authorization, Content-Length, X-Requested-With,ngsw-bypass");
             next();
         });
-    };
-    return Server;
-}());
+    }
+}
 exports.Server = Server;

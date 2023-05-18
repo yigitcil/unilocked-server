@@ -57,6 +57,4 @@ export class User {
   postsSaved?: Ref<Post>[];
 }
 
-const UserModel = getModelForClass(User);
 
-export { UserModel };
