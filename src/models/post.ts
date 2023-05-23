@@ -24,7 +24,7 @@ export class Post {
     localField: (doc: DocumentType<Post>) => doc.postedById,
     justOne: true,
   })
-  public nested?: Ref<Profile>;
+  public postedBy?: Ref<Profile>;
 
   @prop()
   public postedById?: mongoose.Types.ObjectId;
