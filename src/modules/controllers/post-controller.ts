@@ -50,25 +50,7 @@ export class PostController extends BaseController {
       next();
     });
 
-    //Add reaction
-    router.post(
-      "/:id/:reaction",
-      ensureAuthorized("posts.view"),
-      param("id").isMongoId(),
-      async (req, res, next) => {
-        if (req.params.reaction !== "like" && req.params.reaction !== "dislike")
-          res.status(404).send({ success: false, error: "Invalid reaction" });
-        else {
-          const result = await this.addReaction(
-            req.user,
-            req.params.id,
-            req.params.reaction
-          );
-          res.send({ sucess: true, user: req.user });
-          next();
-        }
-      }
-    );
+   
 
     //Save the post
     router.post(
@@ -106,6 +88,26 @@ export class PostController extends BaseController {
           data: result,
         });
         next();
+      }
+    );
+
+     //Add reaction
+     router.post(
+      "/:id/:reaction",
+      ensureAuthorized("posts.view"),
+      param("id").isMongoId(),
+      async (req, res, next) => {
+        if (req.params.reaction !== "like" && req.params.reaction !== "dislike")
+          res.status(404).send({ success: false, error: "Invalid reaction" });
+        else {
+          const result = await this.addReaction(
+            req.user,
+            req.params.id,
+            req.params.reaction
+          );
+          res.send({ sucess: true, user: req.user });
+          next();
+        }
       }
     );
   }
