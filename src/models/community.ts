@@ -30,4 +30,7 @@ export class Community extends Profile {
   likes: Ref<User>[];
   @prop({ type: () => [String] })
   links: string[];
+
+  @prop({default: 'community'})
+  type: string;
 }

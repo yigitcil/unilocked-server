@@ -1,4 +1,4 @@
-import { getModelForClass, Ref } from "@typegoose/typegoose";
+import { DocumentType, getModelForClass, Ref } from "@typegoose/typegoose";
 import { prop } from "@typegoose/typegoose/lib/prop";
 import { Comment } from "./comment";
 import { User } from "./user";
@@ -19,14 +19,22 @@ export class Post {
   author?: Ref<User>;
 
   @prop({
-    type: () => Profile,
-    discriminators: () => [Society, University, Community, User],
+    ref: () => (doc: DocumentType<Post>) => doc.postedByType, // This need to be written this way, because since typegoose "7.1", deferred function are supported
+    foreignField: () => "_id", // no "doc" parameter provided here
+    localField: (doc: DocumentType<Post>) => doc.postedById,
+    justOne: true,
   })
-  postedBy?: Profile;
+  public nested?: Ref<Profile>;
+
+  @prop()
+  public postedById?: mongoose.Types.ObjectId;
+
+  @prop()
+  public postedByType?: string;
 
   @prop({ default: Date.now() })
   createdAt: Date;
 
-  @prop({default: Date.now()})
-  updatedAt: Date
+  @prop({ default: Date.now() })
+  updatedAt: Date;
 }

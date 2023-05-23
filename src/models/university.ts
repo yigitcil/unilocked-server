@@ -8,4 +8,7 @@ export class University extends Profile {
   address: string;
   @prop({ ref: () => Event, select: false })
   events?: Ref<Event>[];
+
+  @prop({default: 'university'})
+  type: string;
 }

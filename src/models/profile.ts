@@ -6,4 +6,7 @@ export class Profile {
 
   @prop()
   avatar?: string;
+
+  @prop()
+  type : string;
 }

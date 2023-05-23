@@ -34,7 +34,8 @@ export class PostController extends BaseController {
         const post = await PostModel.create({
           text: req.body.text,
           images: req.body.images,
-          postedBy: req.user._id,
+          postedById: req.user._id,
+          postedByType: req.user.type,
           author: req.user._id,
         });
 
