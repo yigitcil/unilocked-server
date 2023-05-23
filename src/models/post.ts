@@ -1,4 +1,4 @@
-import { DocumentType, getModelForClass, Ref } from "@typegoose/typegoose";
+import { DocumentType, getModelForClass, modelOptions, Ref } from "@typegoose/typegoose";
 import { prop } from "@typegoose/typegoose/lib/prop";
 import { Comment } from "./comment";
 import { User } from "./user";
@@ -9,6 +9,12 @@ import { Profile } from "./profile";
 import mongoose from "mongoose";
 import { TimeStamps } from "@typegoose/typegoose/lib/defaultClasses";
 
+@modelOptions({
+  schemaOptions: {
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true }
+  }
+})
 export class Post {
   @prop()
   text?: string;
@@ -21,7 +27,7 @@ export class Post {
   @prop({
     ref: () => (doc: DocumentType<Post>) => doc.postedByType, // This need to be written this way, because since typegoose "7.1", deferred function are supported
     foreignField: () => "_id", // no "doc" parameter provided here
-    localField: (doc: DocumentType<Post>) => doc.postedById,
+    localField: () => "postedById", // no "doc" parameter provided here
     justOne: true,
   })
   public postedBy?: Ref<Profile>;
