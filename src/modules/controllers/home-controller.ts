@@ -24,9 +24,9 @@ export default class HomeController extends BaseController {
         ],
       }).populate("postedBy");
 
-      //const pagination = await PaginateService.paginate(req, PostModel, posts);
+      const pagination = await PaginateService.paginate(req, PostModel, posts);
 
-      res.send(await posts.exec());
+      res.send(success(pagination));
     });
   }
 }
