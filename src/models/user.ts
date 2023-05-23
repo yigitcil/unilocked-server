@@ -27,6 +27,9 @@ export class User extends Profile{
   updated_at?: Date; //!
   @prop()
   background?: string;
+
+  @prop({default: 'user'})
+  type: string;
  
   @prop({ select: false })
   available_space?: string; //!;
