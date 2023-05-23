@@ -8,6 +8,7 @@ import { Community } from "./community";
 import { Profile } from "./profile";
 import mongoose from "mongoose";
 import { TimeStamps } from "@typegoose/typegoose/lib/defaultClasses";
+import { PostReaction } from "./relations/post-reaction";
 
 @modelOptions({
   schemaOptions: {
@@ -32,6 +33,14 @@ export class Post {
   })
   public postedBy?: Ref<Profile>;
 
+  @prop({
+    ref: () => () => "PostReaction", // This need to be written this way, because since typegoose "7.1", deferred function are supported
+    foreignField: () => "post", // no "doc" parameter provided here
+    localField: () => "_id", // no "doc" parameter provided here
+    justOne: false,
+  })
+  public reactions?: Ref<PostReaction>[];
+
   @prop()
   public postedById?: mongoose.Types.ObjectId;
 
@@ -39,7 +48,7 @@ export class Post {
   public postedByType?: string;
 
   @prop()
-  public reactions? : Reactions
+  public reactionsCounts? : ReactionCounts
 
   @prop({ default: Date.now() })
   createdAt: Date;
@@ -48,7 +57,7 @@ export class Post {
   updatedAt: Date;
 }
 
-export interface Reactions {
+export interface ReactionCounts {
   like: number;
   dislike: number;
 }

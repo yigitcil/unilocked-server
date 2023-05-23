@@ -129,8 +129,8 @@ export class PostController extends BaseController {
       reaction: reaction,
     });
 
-    if (!post.reactions) {
-      post.reactions = {
+    if (!post.reactionsCounts) {
+      post.reactionsCounts = {
         like: 0,
         dislike: 0,
       };
@@ -142,14 +142,14 @@ export class PostController extends BaseController {
         user: user._id,
         reaction: reaction,
       });
-      post.reactions[reaction] -= 1;
+      post.reactionsCounts[reaction] -= 1;
     } else {
       await PostReactionModel.create({
         post: post._id,
         user: user._id,
         reaction: reaction,
       });
-      post.reactions[reaction] += 1;
+      post.reactionsCounts[reaction] += 1;
     }
     return await post.save();
   }
