@@ -22,7 +22,22 @@ export default class HomeController extends BaseController {
           },
           { author: id },
         ],
-      }).populate(["postedBy","reactions"]);
+      })
+        .populate(["postedBy", "reactions"])
+        .populate({
+          path: "comments",
+          options: {
+            sort: {
+              createdAt: -1,
+            },
+            limit: 2,
+          },
+          populate: {
+            path: "author",
+            select: "first_name last_name avatar_url",
+          },
+        })
+        .sort({ createdAt: -1 });
 
       const pagination = await PaginateService.paginate(req, PostModel, posts);
 
