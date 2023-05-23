@@ -11,6 +11,7 @@ const society_controller_1 = require('./controllers/society-controller');
 const project_controller_1 = require('./controllers/project-controller');
 const post_controller_1 = require('./controllers/post-controller');
 const event_controller_1 = require('./controllers/event-controller');
+const home_controller_1 = __importDefault(require('./controllers/home-controller'));
 class Router {
     constructor(app) {
         this.app = app;
@@ -22,6 +23,7 @@ class Router {
         this.createRoute('project', project_controller_1.ProjectController);
         this.createRoute('posts', post_controller_1.PostController);
         this.createRoute('event', event_controller_1.EventController);
+        this.createRoute('home', home_controller_1.default);
     }
     createRoute(path = null, controller, base = '/api/') {
         const router = (0, express_1.Router)();

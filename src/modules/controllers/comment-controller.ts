@@ -120,7 +120,7 @@ export default class CommentController extends BaseController {
     const comment = await CommentModel.findById(OID(commentID));
 
     if (authorize(req, "comments.delete", comment, "author")) {
-      await comment.remove();
+      await comment.deleteOne();
       await PostModel.updateOne(
         { _id: comment.post },
         { $pull: { comments: OID(commentID) } }

@@ -20,7 +20,7 @@ export class RedisService {
         await this.client.connect();
     }
 
-    public static async remember(key: string, value: any, time: number = -1, func: () => Promise<any>) {
+    public static async remember(key: string, time: number = -1, func: () => Promise<any>) {
         const cachedValue = await this.client.get(key);
 
         if (cachedValue) {
