@@ -105,7 +105,7 @@ export class PostController extends BaseController {
             req.params.id,
             req.params.reaction
           );
-          res.send({ sucess: true, user: req.user });
+          res.send({ sucess: true, data : result });
           next();
         }
       }
@@ -151,7 +151,7 @@ export class PostController extends BaseController {
       });
       post.reactions[reaction] += 1;
     }
-    await post.save();
+    return await post.save();
   }
 
   public async save(postID: string, userID: mongoose.Types.ObjectId) {
