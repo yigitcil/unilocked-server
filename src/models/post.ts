@@ -41,6 +41,14 @@ export class Post {
   })
   public reactions?: Ref<PostReaction>[];
 
+  @prop({
+    ref: () => () => "Comment", // This need to be written this way, because since typegoose "7.1", deferred function are supported
+    foreignField: () => "post", // no "doc" parameter provided here
+    localField: () => "_id", // no "doc" parameter provided here
+    justOne: false,
+  })
+  public comments?: Ref<Comment>[];
+
   @prop()
   public postedById?: mongoose.Types.ObjectId;
 
