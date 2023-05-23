@@ -38,9 +38,17 @@ export class Post {
   @prop()
   public postedByType?: string;
 
+  @prop()
+  public reactions? : Reactions
+
   @prop({ default: Date.now() })
   createdAt: Date;
 
   @prop({ default: Date.now() })
   updatedAt: Date;
+}
+
+export interface Reactions {
+  like: number;
+  dislike: number;
 }
