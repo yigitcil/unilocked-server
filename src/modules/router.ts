@@ -6,18 +6,19 @@ import { SocietyController } from "./controllers/society-controller";
 import { ProjectController } from "./controllers/project-controller";
 import { PostController } from "./controllers/post-controller";
 import { EventController } from "./controllers/event-controller";
+import HomeController from "./controllers/home-controller";
 
 export class Router {
   constructor(private app: Express) {}
 
   public listen() {
-    
     this.createRoute("auth", AuthController);
     this.createRoute("user-profile", UserProfileController);
     this.createRoute("society", SocietyController);
     this.createRoute("project", ProjectController);
     this.createRoute("posts", PostController);
     this.createRoute("event", EventController);
+    this.createRoute("home", HomeController);
   }
 
   public createRoute<Type extends BaseController>(

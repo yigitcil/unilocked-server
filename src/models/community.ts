@@ -2,10 +2,10 @@ import { User } from "./user";
 import { getModelForClass, Ref } from "@typegoose/typegoose";
 import { prop } from "@typegoose/typegoose/lib/prop";
 import { Post } from "./post";
+import { Profile } from "./profile";
 
-export class Community {
-  @prop()
-  name: string;
+export class Community extends Profile {
+  
   @prop()
   summary: string;
   @prop()
@@ -31,4 +31,3 @@ export class Community {
   @prop({ type: () => [String] })
   links: string[];
 }
-

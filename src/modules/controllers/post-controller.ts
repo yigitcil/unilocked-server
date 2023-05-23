@@ -9,7 +9,6 @@ import success from "../responses/success";
 import PaginateService from "../services/paginate";
 import { PostModel, UserModel } from "../../resolved-models";
 
-
 export class PostController extends BaseController {
   //Get post by ID
   listen(router: Router): void {
@@ -25,6 +24,21 @@ export class PostController extends BaseController {
           data: post,
         });
         next();
+      }
+    );
+
+    router.post(
+      "/",
+      ensureAuthorized("posts.create"),
+      async (req, res, next) => {
+        const post = await PostModel.create({
+          text: req.body.text,
+          images: req.body.images,
+          postedBy: req.user._id,
+          author: req.user._id,
+        });
+
+        res.send(success(post));
       }
     );
 
