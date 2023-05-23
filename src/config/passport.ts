@@ -14,7 +14,7 @@ export default class PassportConfig {
       new LocalStrategy({ usernameField: "email" }, (email, password, done) => {
         //match user
         UserModel.find({ email: email })
-          .select("+password+postsSaved")
+          .select("+password +postsSaved")
           .populate(["roles"])
           .exec()
           .then((users) => {
