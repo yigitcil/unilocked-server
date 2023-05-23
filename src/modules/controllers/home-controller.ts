@@ -22,7 +22,7 @@ export default class HomeController extends BaseController {
           },
           { author: id },
         ],
-      });
+      }).populate("postedBy");
 
       const pagination = await PaginateService.paginate(req, PostModel, posts);
 
