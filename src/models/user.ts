@@ -28,7 +28,7 @@ export class User extends Profile{
   @prop()
   background?: string;
 
-  @prop({default: 'user'})
+  @prop({default: 'User'})
   type: string;
  
   @prop({ select: false })
@@ -39,7 +39,7 @@ export class User extends Profile{
   display_name?: string;
   @prop({ select: false })
   has_password?: boolean; //!;
-  @prop({ ref: () => Role })
+  @prop({ ref: () => Role,autopopulate: true })
   roles?: Ref<Role>[];
   @prop({ ref: () => Post, select: false })
   posts?: Ref<Post>[];

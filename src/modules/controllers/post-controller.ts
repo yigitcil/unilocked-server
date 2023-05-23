@@ -133,13 +133,16 @@ export class PostController extends BaseController {
         user: user._id,
         reaction: reaction,
       });
+      post.reactions[reaction] -= 1;
     } else {
       await PostReactionModel.create({
         post: post._id,
         user: user._id,
         reaction: reaction,
       });
+      post.reactions[reaction] += 1;
     }
+    await post.save();
   }
 
   public async save(postID: string, userID: mongoose.Types.ObjectId) {

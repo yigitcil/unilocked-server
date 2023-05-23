@@ -14,11 +14,10 @@ export default class PassportConfig {
       new LocalStrategy({ usernameField: "email" }, (email, password, done) => {
         //match user
         UserModel.find({ email: email })
-          .select("+password")
-          .populate("roles")
+          .select("+password+postsSaved")
+          .populate(["roles"])
           .exec()
           .then((users) => {
-           
             if (users.length == 0) {
               return done(null, false, { message: tr("Email not registered") });
             }
@@ -42,8 +41,8 @@ export default class PassportConfig {
       done(null, user._id);
     });
     passport.deserializeUser(function (id: string, done) {
-      UserModel
-        .findById(id)
+      UserModel.findById(id)
+        .select("+postsSaved")
         .populate("roles")
         .exec()
         .then(async (user: any) => {

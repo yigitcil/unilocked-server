@@ -9,6 +9,6 @@ export class University extends Profile {
   @prop({ ref: () => Event, select: false })
   events?: Ref<Event>[];
 
-  @prop({default: 'university'})
+  @prop({default: 'University'})
   type: string;
 }

@@ -31,6 +31,6 @@ export class Community extends Profile {
   @prop({ type: () => [String] })
   links: string[];
 
-  @prop({default: 'community'})
+  @prop({default: 'Community'})
   type: string;
 }
