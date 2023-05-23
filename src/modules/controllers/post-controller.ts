@@ -129,6 +129,13 @@ export class PostController extends BaseController {
       reaction: reaction,
     });
 
+    if (!post.reactions) {
+      post.reactions = {
+        like: 0,
+        dislike: 0,
+      };
+    }
+
     if (isLiked) {
       await PostReactionModel.deleteOne({
         post: post._id,
