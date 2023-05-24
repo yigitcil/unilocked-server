@@ -9,4 +9,10 @@ export class Profile {
 
   @prop()
   type : string;
+
+  @prop({ default: Date.now() })
+  createdAt: Date;
+
+  @prop({ default: Date.now() })
+  updatedAt: Date;
 }
