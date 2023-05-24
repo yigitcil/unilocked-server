@@ -64,10 +64,10 @@ export class MessageController extends BaseController {
                                 { sender: from, receiver: to },
                                 { sender: to, receiver: from }
                             ]
-                        }).populate(["sender", "reciever"]).sort({ updatedAt: 1 });
+                        }).populate(["sender", "receiver"]).sort({ updatedAt: 1 });
                         const allMessages = messages.map((msg) => {
                             return {
-                                status: msg.sender.toString() === from._id.toString() ? "sender" : "receiver",
+                                status: msg.sender._id.equals(from._id) ? "sender" : "receiver",
                                 message: msg.text,
                             };
                         });
