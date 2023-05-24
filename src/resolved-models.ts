@@ -9,6 +9,7 @@ import { University } from "./models/university";
 import { User } from "./models/user";
 import { Post } from "./models/post";
 import { Event } from "./models/event";
+import { Message } from "./models/message";
 
 export const CommentModel = getModelForClass(Comment);
 export const CommunityModel = getModelForClass(Community);
@@ -20,3 +21,4 @@ export const RoleModel = getModelForClass(Role);
 export const SocietyModel = getModelForClass(Society)
 export const UniversityModel = getModelForClass(University)
 export const UserModel = getModelForClass(User);
+export const MessageModel = getModelForClass(Message);

@@ -6,6 +6,7 @@ import https from "https";
 import session from "express-session";
 import passport from "passport";
 import flash from "connect-flash";
+import { User } from "../models/user";
 
 export class Server {
   private app;
@@ -39,7 +40,7 @@ export class Server {
     //const httpsServer = https.createServer(this.credentials, this.app);
 
     httpServer.listen(port, () => {
-      console.log("HTTP Server running on port 80");
+      console.log(`HTTP Server running on port ${port}`);
       callback(this.app)
     });
 
@@ -47,6 +48,36 @@ export class Server {
       console.log("HTTP Server running on port 443");
       callback(this.app);
     });*/
+
+    //SOCKET
+    const socket = require("socket.io");
+    const io = socket(httpServer, {
+      cors: {
+        origin: process.env.HOST,
+        credentials: true
+      },
+    });
+
+    global.onlineUsers = new Map<string, string>();
+
+    io.on("connection", (socket: any) => {
+      console.log("user connected", socket.id);
+      global.chatSocket = socket;
+      socket.on("add-user", (user: User) => {
+        console.log("add-user", { user })
+        global.onlineUsers.set(user, socket.id);
+        console.log(global.onlineUsers);
+      });
+
+      socket.on("send-msg", (data: any) => {
+        console.log("sendmsg", { data })
+        const sendUserSocket = global.onlineUsers.get(data.to);
+        if (sendUserSocket) {
+          socket.to(sendUserSocket).emit("receive-msg", data.msg);
+        }
+      });
+    });
+    //END SOCKET
   }
 
   private use() {
@@ -58,7 +89,7 @@ export class Server {
         resave: true,
         saveUninitialized: true,
         cookie: {
-          maxAge : 30 * 24 * 60 * 60 * 1000,
+          maxAge: 30 * 24 * 60 * 60 * 1000,
 
         }
       })
