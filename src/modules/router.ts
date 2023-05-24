@@ -6,6 +6,8 @@ import { SocietyController } from "./controllers/society-controller";
 import { ProjectController } from "./controllers/project-controller";
 import { PostController } from "./controllers/post-controller";
 import { EventController } from "./controllers/event-controller";
+import { MessageController } from "./controllers/message-controller";
+
 import HomeController from "./controllers/home-controller";
 
 export class Router {
@@ -18,6 +20,7 @@ export class Router {
     this.createRoute("project", ProjectController);
     this.createRoute("posts", PostController);
     this.createRoute("event", EventController);
+    this.createRoute("message", MessageController);
     this.createRoute("home", HomeController);
   }
 
