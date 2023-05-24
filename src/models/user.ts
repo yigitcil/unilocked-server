@@ -3,11 +3,10 @@ import { University } from "./university";
 import { Post } from "./post";
 import { Role } from "./role";
 import { getModelForClass, prop, Ref } from "@typegoose/typegoose";
+import { Profile } from "./profile";
 
 
-export class User {
-  @prop({ index: true })
-  username?: string; // slug
+export class User extends Profile{
   @prop()
   first_name?: string;
   @prop()
@@ -28,8 +27,10 @@ export class User {
   updated_at?: Date; //!
   @prop()
   background?: string;
-  @prop()
-  avatar?: string;
+
+  @prop({default: 'User'})
+  type: string;
+ 
   @prop({ select: false })
   available_space?: string; //!;
   @prop({ select: false })
@@ -38,7 +39,7 @@ export class User {
   display_name?: string;
   @prop({ select: false })
   has_password?: boolean; //!;
-  @prop({ ref: () => Role })
+  @prop({ ref: () => Role,autopopulate: true })
   roles?: Ref<Role>[];
   @prop({ ref: () => Post, select: false })
   posts?: Ref<Post>[];
@@ -47,7 +48,7 @@ export class User {
   @prop({ ref: () => Event, select: false })
   participatedEvents?: Ref<Event>[];
   @prop({ ref: () => User, select: false })
-  followers?: Ref<User>[];
+  following?: Ref<User>[];
   @prop()
   university?: University;
   @prop({ ref: () => Post, select: false })

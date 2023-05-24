@@ -253,7 +253,7 @@ export class EventController extends BaseController {
         { $pull: { events: event._id } }
       );
 
-      await event.remove(); //Delete the event from the DB.
+      await event.deleteOne(); //Delete the event from the DB.
       return event;
     }
     return null;

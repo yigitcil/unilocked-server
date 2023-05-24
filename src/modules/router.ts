@@ -8,11 +8,12 @@ import { PostController } from "./controllers/post-controller";
 import { EventController } from "./controllers/event-controller";
 import { MessageController } from "./controllers/message-controller";
 
+import HomeController from "./controllers/home-controller";
+
 export class Router {
   constructor(private app: Express) {}
 
   public listen() {
-    
     this.createRoute("auth", AuthController);
     this.createRoute("user-profile", UserProfileController);
     this.createRoute("society", SocietyController);
@@ -20,6 +21,7 @@ export class Router {
     this.createRoute("posts", PostController);
     this.createRoute("event", EventController);
     this.createRoute("message", MessageController);
+    this.createRoute("home", HomeController);
   }
 
   public createRoute<Type extends BaseController>(

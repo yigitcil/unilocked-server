@@ -9,7 +9,6 @@ import success from "../responses/success";
 import PaginateService from "../services/paginate";
 import { PostModel, UserModel } from "../../resolved-models";
 
-
 export class PostController extends BaseController {
   //Get post by ID
   listen(router: Router): void {
@@ -28,6 +27,22 @@ export class PostController extends BaseController {
       }
     );
 
+    router.post(
+      "/",
+      ensureAuthorized("posts.create"),
+      async (req, res, next) => {
+        const post = await PostModel.create({
+          text: req.body.text,
+          images: req.body.images,
+          postedById: req.user._id,
+          postedByType: req.user.type,
+          author: req.user._id,
+        });
+
+        res.send(success(post));
+      }
+    );
+
     //Get posts
     router.get("/", ensureAuthorized("posts.view"), async (req, res, next) => {
       const posts = PostModel.find();
@@ -35,25 +50,7 @@ export class PostController extends BaseController {
       next();
     });
 
-    //Add reaction
-    router.post(
-      "/:id/:reaction",
-      ensureAuthorized("posts.view"),
-      param("id").isMongoId(),
-      async (req, res, next) => {
-        if (req.params.reaction !== "like" && req.params.reaction !== "dislike")
-          res.status(404).send({ success: false, error: "Invalid reaction" });
-        else {
-          const result = await this.addReaction(
-            req.user,
-            req.params.id,
-            req.params.reaction
-          );
-          res.send({ sucess: true, user: req.user });
-          next();
-        }
-      }
-    );
+   
 
     //Save the post
     router.post(
@@ -93,6 +90,26 @@ export class PostController extends BaseController {
         next();
       }
     );
+
+     //Add reaction
+     router.post(
+      "/:id/:reaction",
+      ensureAuthorized("posts.view"),
+      param("id").isMongoId(),
+      async (req, res, next) => {
+        if (req.params.reaction !== "like" && req.params.reaction !== "dislike")
+          res.status(404).send({ success: false, error: "Invalid reaction" });
+        else {
+          const result = await this.addReaction(
+            req.user,
+            req.params.id,
+            req.params.reaction
+          );
+          res.send({ sucess: true, data : result });
+          next();
+        }
+      }
+    );
   }
 
   public async byId(_id: string) {
@@ -112,19 +129,29 @@ export class PostController extends BaseController {
       reaction: reaction,
     });
 
+    if (!post.reactionsCounts) {
+      post.reactionsCounts = {
+        like: 0,
+        dislike: 0,
+      };
+    }
+
     if (isLiked) {
       await PostReactionModel.deleteOne({
         post: post._id,
         user: user._id,
         reaction: reaction,
       });
+      post.reactionsCounts[reaction] -= 1;
     } else {
       await PostReactionModel.create({
         post: post._id,
         user: user._id,
         reaction: reaction,
       });
+      post.reactionsCounts[reaction] += 1;
     }
+    return await post.save();
   }
 
   public async save(postID: string, userID: mongoose.Types.ObjectId) {
