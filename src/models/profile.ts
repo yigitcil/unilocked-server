@@ -24,4 +24,7 @@ export class Profile {
     justOne: false,
   })
   public followers?: Ref<Followers>[];
+
+  @prop()
+  followersount?: number;
 }
