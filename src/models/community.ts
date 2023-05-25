@@ -21,9 +21,6 @@ export class Community extends Profile {
   tags: string[];
 
   @prop({ ref: () => User })
-  followers: Ref<User>;
-
-  @prop({ ref: () => User })
   contributors: Ref<User>[];
 
   @prop({ ref: () => User })
