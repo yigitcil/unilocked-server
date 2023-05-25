@@ -26,5 +26,5 @@ export class Profile {
   public followers?: Ref<Followers>[];
 
   @prop()
-  followersount?: number;
+  followerCount?: number;
 }
