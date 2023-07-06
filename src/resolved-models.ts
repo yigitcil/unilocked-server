@@ -1,3 +1,4 @@
+import { Members } from './models/relations/members';
 import { Followers } from './models/relations/followers';
 import { getModelForClass } from "@typegoose/typegoose";
 import { Comment } from "./models/comment";
@@ -26,3 +27,4 @@ export const UserModel = getModelForClass(User);
 export const MessageModel = getModelForClass(Message);
 export const FollowersModel = getModelForClass(Followers);
 export const FileModel = getModelForClass(File);
+export const MembersModel = getModelForClass(Members);

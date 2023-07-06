@@ -31,6 +31,6 @@ export class Members {
   @prop()
   profileType: string;
 
-  @prop({ ref: () => Role })
+  @prop({ ref: () => Role,autopopulate: true })
   memberRole: Ref<Role>;
 }
