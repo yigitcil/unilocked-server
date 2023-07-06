@@ -11,6 +11,7 @@ import { User } from "./models/user";
 import { Post } from "./models/post";
 import { Event } from "./models/event";
 import { Message } from "./models/message";
+import { File } from './models/file';
 
 export const CommentModel = getModelForClass(Comment);
 export const CommunityModel = getModelForClass(Community);
@@ -24,3 +25,4 @@ export const UniversityModel = getModelForClass(University)
 export const UserModel = getModelForClass(User);
 export const MessageModel = getModelForClass(Message);
 export const FollowersModel = getModelForClass(Followers);
+export const FileModel = getModelForClass(File);
