@@ -51,6 +51,8 @@ export class User extends Profile{
   following?: Ref<User>[];
   @prop()
   university?: University;
+  @prop()
+  company?: string;
   @prop({ ref: () => Post, select: false })
   projectsParticipated?: Ref<Post>[];
 
