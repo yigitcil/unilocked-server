@@ -4,6 +4,7 @@ import { Post } from "./post";
 import { Role } from "./role";
 import { getModelForClass, prop, Ref } from "@typegoose/typegoose";
 import { Profile } from "./profile";
+import { Followers } from "./relations/followers";
 
 
 export class User extends Profile{
@@ -47,8 +48,15 @@ export class User extends Profile{
   createdEvents?: Ref<Event>[];
   @prop({ ref: () => Event, select: false })
   participatedEvents?: Ref<Event>[];
-  @prop({ ref: () => User, select: false })
-  following?: Ref<User>[];
+
+  @prop({
+    ref: () => () => "Followers", // This need to be written this way, because since typegoose "7.1", deferred function are supported
+    foreignField: () => "followerId", // no "doc" parameter provided here
+    localField: () => "_id", // no "doc" parameter provided here
+    justOne: true,
+  })
+  public following?: Ref<Followers>[];
+
   @prop()
   university?: University;
   @prop()

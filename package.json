@@ -50,6 +50,7 @@
     "passport-local": "^1.0.0",
     "redis": "^4.6.5",
     "slugify": "^1.6.5",
+    "socket.io": "^4.6.1",
     "uuid": "^8.3.2"
   }
 }

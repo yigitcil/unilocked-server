@@ -1,3 +1,4 @@
+import { Followers } from './models/relations/followers';
 import { getModelForClass } from "@typegoose/typegoose";
 import { Comment } from "./models/comment";
 import { Community } from "./models/community";
@@ -10,6 +11,7 @@ import { User } from "./models/user";
 import { Post } from "./models/post";
 import { Event } from "./models/event";
 import { Company } from "./models/company";
+import { Message } from "./models/message";
 
 export const CommentModel = getModelForClass(Comment);
 export const CommunityModel = getModelForClass(Community);
@@ -22,3 +24,5 @@ export const RoleModel = getModelForClass(Role);
 export const SocietyModel = getModelForClass(Society)
 export const UniversityModel = getModelForClass(University)
 export const UserModel = getModelForClass(User);
+export const MessageModel = getModelForClass(Message);
+export const FollowersModel = getModelForClass(Followers);
