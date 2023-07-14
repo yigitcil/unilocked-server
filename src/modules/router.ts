@@ -9,6 +9,8 @@ import { EventController } from "./controllers/event-controller";
 import { MessageController } from "./controllers/message-controller";
 
 import HomeController from "./controllers/home-controller";
+import { UserRecommentationController } from "./controllers/user-recommendation-controller";
+import CompanyController from "./controllers/company-controller";
 
 export class Router {
   constructor(private app: Express) {}
@@ -22,6 +24,8 @@ export class Router {
     this.createRoute("event", EventController);
     this.createRoute("message", MessageController);
     this.createRoute("home", HomeController);
+    this.createRoute("user-recommendation", UserRecommentationController);
+    this.createRoute("company", CompanyController)
   }
 
   public createRoute<Type extends BaseController>(

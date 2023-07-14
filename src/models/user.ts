@@ -59,6 +59,8 @@ export class User extends Profile{
 
   @prop()
   university?: University;
+  @prop()
+  company?: string;
   @prop({ ref: () => Post, select: false })
   projectsParticipated?: Ref<Post>[];
 

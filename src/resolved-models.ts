@@ -10,10 +10,12 @@ import { University } from "./models/university";
 import { User } from "./models/user";
 import { Post } from "./models/post";
 import { Event } from "./models/event";
+import { Company } from "./models/company";
 import { Message } from "./models/message";
 
 export const CommentModel = getModelForClass(Comment);
 export const CommunityModel = getModelForClass(Community);
+export const CompanyModel = getModelForClass(Company);
 export const EventModel = getModelForClass(Event);
 export const PostModel = getModelForClass(Post);
 export const ProjectPostingModel = getModelForClass(ProjectPosting)

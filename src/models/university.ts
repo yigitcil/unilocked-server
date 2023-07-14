@@ -1,5 +1,6 @@
 import { Ref, getModelForClass, prop } from "@typegoose/typegoose";
 import { Profile } from "./profile";
+import { User } from "./user";
 
 export class University extends Profile {
   @prop()
@@ -11,4 +12,7 @@ export class University extends Profile {
 
   @prop({default: 'University'})
   type: string;
+
+  @prop({ ref: () => User, select: false})
+    students?: Ref<User>[];
 }
