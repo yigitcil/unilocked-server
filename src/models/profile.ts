@@ -12,6 +12,24 @@ export class Profile {
   avatar?: string;
 
   @prop()
+  description: string;
+
+  @prop()
+  city: string;
+
+  @prop({
+    type : [String],
+    default : []
+  })
+  tags: string[];
+
+  @prop({
+    type : [String],
+    default : []
+  })
+  links: string[];
+
+  @prop()
   type: string;
 
   @prop({ default: Date.now() })
