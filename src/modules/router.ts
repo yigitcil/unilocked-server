@@ -9,6 +9,8 @@ import { EventController } from "./controllers/event-controller";
 import { MessageController } from "./controllers/message-controller";
 
 import HomeController from "./controllers/home-controller";
+import { UserRecommentationController } from "./controllers/user-recommendation-controller";
+import CompanyController from "./controllers/company-controller";
 import { Upload } from "@tus/server";
 import { UploadController } from "./controllers/upload-controller";
 
@@ -24,6 +26,8 @@ export class Router {
     this.createRoute("event", EventController);
     this.createRoute("message", MessageController);
     this.createRoute("home", HomeController);
+    this.createRoute("user-recommendation", UserRecommentationController);
+    this.createRoute("company", CompanyController)
 
 
     // init upload controler

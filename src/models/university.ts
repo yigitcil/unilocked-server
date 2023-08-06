@@ -4,6 +4,7 @@ import { Community } from "./community";
 import { Project } from "./project";
 import { UserEducation } from "./relations/school/user-education";
 
+
 export class University extends Profile {
   @prop()
   city: string;
@@ -21,6 +22,7 @@ export class University extends Profile {
   @prop({ default: "University" })
   type: string;
 
+
   @prop({
     ref: () => UserEducation,
     foreignField: () => "schoolId",
@@ -28,4 +30,5 @@ export class University extends Profile {
     match: { graduationDate: { $lt: Date.now() } },
   })
   graduates?: Ref<UserEducation>[]; //
+
 }
