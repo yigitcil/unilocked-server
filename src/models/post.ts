@@ -1,13 +1,9 @@
-import { DocumentType, getModelForClass, modelOptions, Ref } from "@typegoose/typegoose";
+import { DocumentType, modelOptions, Ref } from "@typegoose/typegoose";
 import { prop } from "@typegoose/typegoose/lib/prop";
 import { Comment } from "./comment";
 import { User } from "./user";
-import { Society } from "./society";
-import { University } from "./university";
-import { Community } from "./community";
 import { Profile } from "./profile";
 import mongoose from "mongoose";
-import { TimeStamps } from "@typegoose/typegoose/lib/defaultClasses";
 import { PostReaction } from "./relations/post-reaction";
 
 @modelOptions({

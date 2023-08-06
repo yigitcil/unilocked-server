@@ -1,6 +1,8 @@
 import { Ref, prop } from "@typegoose/typegoose";
 import { Followers } from "./relations/followers";
 import { Members } from "./relations/members";
+import { Post } from "./post";
+import { FeaturedContent } from "./relations/profiles/featured-content";
 
 export class Profile {
   @prop()
@@ -10,7 +12,7 @@ export class Profile {
   avatar?: string;
 
   @prop()
-  type : string;
+  type: string;
 
   @prop({ default: Date.now() })
   createdAt: Date;
@@ -36,4 +38,32 @@ export class Profile {
 
   @prop()
   followerCount?: number;
+
+  @prop()
+  website?: string;
+
+  @prop()
+  phone?: string;
+
+  @prop()
+  contactEmail?: string;
+
+  @prop()
+  address?: string;
+
+  @prop({
+    ref: () => Post,
+    foreignField: () => "postedById",
+    localField: () => "_id",
+    justOne: false,
+  })
+  public posts?: Ref<Post>[];
+
+  @prop({
+    ref: () => FeaturedContent,
+    foreignField: () => "profileId",
+    localField: () => "_id",
+    justOne: false,
+  })
+  public featuredContent?: Ref<FeaturedContent>[];
 }

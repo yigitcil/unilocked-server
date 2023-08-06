@@ -1,15 +1,8 @@
-import { use } from "passport";
-import { Server } from "./../server";
-import { Router } from "express";
-import BaseController from "./base-controller";
-import ensureAuthenticated from "../middleware/ensure-authenticated";
-import ensureAuthorized from "../middleware/ensure-authorized";
-import { FileModel } from "../../resolved-models";
-import { v4 } from "uuid";
+import express, { Express } from "express";
 import { Server as TusServer } from "@tus/server";
 import { S3Store } from "@tus/s3-store";
 
-export class UploadController extends BaseController {
+export class UploadController {
   private s3Store = new S3Store({
     partSize: 8 * 1024 * 1024, // Each uploaded part will have ~8MB,
     s3ClientConfig: {
@@ -23,30 +16,34 @@ export class UploadController extends BaseController {
   private server: TusServer = new TusServer({
     path: "/files",
     datastore: this.s3Store,
-    onUploadCreate: async (req:any, res, upload) => {
-      console.log(req.user)
-      return res
+    onUploadCreate: async (req: any, res, upload) => {
+      console.log(req);
+      return res;
     },
   });
 
-  constructor() {
-    super();
+  private uploadApp: Express;
+
+  constructor(app: Express) {
+    this.uploadApp = express();
+    
+    this.uploadApp.use((req,res,next) => {
+      res.header("Access-Control-Allow-Origin", "*");
+      next();
+    })
+    
+    this.uploadApp.all("*", (req,res,next) => {
+      console.log("upload", req.user);
+      next();
+    } ,this.server.handle.bind(this.server));
+    
+    app.use("/files",(req,res,next) => {
+      console.log("files", req.user);
+      next();
+    } ,this.uploadApp);
+   
   }
 
-  listen(router: Router): void {
-    router.all(
-      "/upload",
-      ensureAuthenticated,
-      ensureAuthorized("files.create"),
-      async (req, res, next) => {
-        const name = v4();
-        const file = await FileModel.create({
-          name,
-          user: req.user._id,
-        });
-
-        this.server.handle(req, res);
-      }
-    );
+  listen(): void {
   }
 }
