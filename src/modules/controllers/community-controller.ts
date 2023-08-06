@@ -13,8 +13,6 @@ export default class CommunityController extends BaseController {
       param("id").isMongoId(),
       this.followCommunity.bind(this)
     );
-
-    
   }
 
   async followCommunity(req, res: Response) {

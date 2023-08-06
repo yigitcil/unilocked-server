@@ -1,3 +1,6 @@
+import { UserJob } from './models/relations/jobs/user-job';
+import { PostReaction } from './models/relations/post-reaction';
+import { CommunityContributors } from './models/relations/community-contributors';
 import { UserEducation } from './models/relations/school/user-education';
 import { FeaturedContent } from './models/relations/profiles/featured-content';
 import { Department } from './models/university/department';
@@ -16,6 +19,7 @@ import { Event } from "./models/event";
 import { Company } from "./models/company";
 import { Message } from "./models/message";
 import { File } from './models/file';
+import { Talent } from './models/talent';
 
 export const CommentModel = getModelForClass(Comment);
 export const CommunityModel = getModelForClass(Community);
@@ -34,3 +38,7 @@ export const MembersModel = getModelForClass(Members);
 export const DepartmentModel = getModelForClass(Department);
 export const FeaturedContentModel = getModelForClass(FeaturedContent);
 export const UserEducationModel = getModelForClass(UserEducation);
+export const TalentModel = getModelForClass(Talent);
+export const CommunityContributorsModel = getModelForClass(CommunityContributors);
+export const PostReactionModel = getModelForClass(PostReaction);
+export const UserJobModel = getModelForClass(UserJob);
