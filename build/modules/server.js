@@ -37,13 +37,39 @@ class Server {
         const httpServer = http_1.default.createServer(this.app);
         //const httpsServer = https.createServer(this.credentials, this.app);
         httpServer.listen(port, () => {
-            console.log("HTTP Server running on port 80");
+            console.log(`HTTP Server running on port ${port}`);
             callback(this.app);
         });
         /*httpsServer.listen(443, () => {
           console.log("HTTP Server running on port 443");
           callback(this.app);
         });*/
+        //SOCKET
+        const socket = require("socket.io");
+        const io = socket(httpServer, {
+            cors: {
+                origin: process.env.HOST,
+                credentials: true
+            },
+        });
+        global.onlineUsers = new Map();
+        io.on("connection", (socket) => {
+            console.log("user connected", socket.id);
+            global.chatSocket = socket;
+            socket.on("add-user", (user) => {
+                console.log("add-user", { user });
+                global.onlineUsers.set(user, socket.id);
+                console.log(global.onlineUsers);
+            });
+            socket.on("send-msg", (data) => {
+                console.log("sendmsg", { data });
+                const sendUserSocket = global.onlineUsers.get(data.to);
+                if (sendUserSocket) {
+                    socket.to(sendUserSocket).emit("receive-msg", data.msg);
+                }
+            });
+        });
+        //END SOCKET
     }
     use() {
         new passport_1.default().init();

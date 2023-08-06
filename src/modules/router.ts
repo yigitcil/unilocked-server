@@ -6,7 +6,13 @@ import { SocietyController } from "./controllers/society-controller";
 import { ProjectController } from "./controllers/project-controller";
 import { PostController } from "./controllers/post-controller";
 import { EventController } from "./controllers/event-controller";
+import { MessageController } from "./controllers/message-controller";
+
 import HomeController from "./controllers/home-controller";
+import { UserRecommentationController } from "./controllers/user-recommendation-controller";
+import CompanyController from "./controllers/company-controller";
+import { Upload } from "@tus/server";
+import { UploadController } from "./controllers/upload-controller";
 
 export class Router {
   constructor(private app: Express) {}
@@ -18,7 +24,14 @@ export class Router {
     this.createRoute("project", ProjectController);
     this.createRoute("posts", PostController);
     this.createRoute("event", EventController);
+    this.createRoute("message", MessageController);
     this.createRoute("home", HomeController);
+    this.createRoute("user-recommendation", UserRecommentationController);
+    this.createRoute("company", CompanyController)
+
+
+    // init upload controler
+    new UploadController(this.app).listen()
   }
 
   public createRoute<Type extends BaseController>(

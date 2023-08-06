@@ -1,4 +1,3 @@
-
 import { Router } from "express";
 import { param } from "express-validator";
 import mongoose from "mongoose";
@@ -28,7 +27,6 @@ export class UserProfileController extends BaseController {
     router.get("/", ensureAuthorized("users.view"), async (req, res, next) => {
       const users = await UserModel.find();
 
-    
       res.send(success(await PaginateService.paginate(req, UserModel, users)));
       next();
     });
@@ -38,7 +36,6 @@ export class UserProfileController extends BaseController {
       ensureAuthorized("users.view"),
       param("username").isString().isLength({ min: 2 }),
       async (req, res, next) => {
-        
         if (
           req.user._id.toString() !==
           (await this.byUserName(req.params.username)).id
@@ -63,8 +60,40 @@ export class UserProfileController extends BaseController {
 
   public async byUserName(username: string) {
     const userController = new UserController();
-    const user = userController.byUsername(username);
+    const user = await this.populate(userController.byUsername(username));
     return user;
+  }
+
+  public async populate(user) {
+    return user.populate([
+      {
+        path: "university",
+      },
+      {
+        path: "department",
+      },
+      {
+        path: "posts",
+      },
+      {
+        path: "jobs",
+      },
+      {
+        path: "education",
+      },
+      {
+        path: "followers",
+      },
+      {
+        path: "following",
+      },
+      {
+        path: "projectsParticipated",
+      },
+      {
+        path: "featuredContent",
+      },
+    ]);
   }
 
   public async getSavedPosts(

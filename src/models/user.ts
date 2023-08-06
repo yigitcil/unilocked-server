@@ -4,9 +4,13 @@ import { Post } from "./post";
 import { Role } from "./role";
 import { getModelForClass, prop, Ref } from "@typegoose/typegoose";
 import { Profile } from "./profile";
+import { Followers } from "./relations/followers";
+import { Types } from "mongoose";
+import { Department } from "./university/department";
+import { UserJob } from "./relations/jobs/user-job";
+import { UserEducation } from "./relations/school/user-education";
 
-
-export class User extends Profile{
+export class User extends Profile {
   @prop()
   first_name?: string;
   @prop()
@@ -28,9 +32,9 @@ export class User extends Profile{
   @prop()
   background?: string;
 
-  @prop({default: 'User'})
+  @prop({ default: "User" })
   type: string;
- 
+
   @prop({ select: false })
   available_space?: string; //!;
   @prop({ select: false })
@@ -39,23 +43,67 @@ export class User extends Profile{
   display_name?: string;
   @prop({ select: false })
   has_password?: boolean; //!;
-  @prop({ ref: () => Role,autopopulate: true })
+  @prop({ ref: () => Role, autopopulate: true })
   roles?: Ref<Role>[];
-  @prop({ ref: () => Post, select: false })
-  posts?: Ref<Post>[];
+
   @prop({ ref: () => Event, select: false })
   createdEvents?: Ref<Event>[];
   @prop({ ref: () => Event, select: false })
   participatedEvents?: Ref<Event>[];
-  @prop({ ref: () => User, select: false })
-  following?: Ref<User>[];
+
+  @prop({
+    ref: () => () => "Followers", // This need to be written this way, because since typegoose "7.1", deferred function are supported
+    foreignField: () => "followerId", // no "doc" parameter provided here
+    localField: () => "_id", // no "doc" parameter provided here
+    justOne: true,
+  })
+  public following?: Ref<Followers>[];
+
   @prop()
-  university?: University;
+  universityId?: Types.ObjectId;
+
   @prop({ ref: () => Post, select: false })
-  projectsParticipated?: Ref<Post>[];
+  projectsParticipated?: Ref<Project>[];
 
   @prop({ ref: () => Post, select: false })
   postsSaved?: Ref<Post>[];
+
+  @prop({
+    ref: () => "University",
+    localField: () => "universityId",
+    foreignField: () => "_id",
+    justOne: true,
+  })
+  university?: Ref<University>;
+
+  @prop({ required: false })
+  departmentId?: Types.ObjectId;
+
+  @prop({
+    ref: () => "Department",
+    localField: () => "departmentId",
+    foreignField: () => "_id",
+    justOne: true,
+  })
+  department?: Ref<Department>;
+
+  @prop({
+    ref: () => "UserJob",
+    foreignField: () => "userId",
+    localField: () => "_id",
+    justOne: false,
+  })
+  jobs?: Ref<UserJob>[];
+
+  get currentJob() {
+    return this.jobs?.find((job) => (job as UserJob)?.current);
+  }
+
+  @prop({
+    ref: () => UserEducation,
+    foreignField: () => "userId",
+    localField: () => "_id",
+    justOne: false,
+  })
+  education?: Ref<UserEducation>[];
 }
-
-

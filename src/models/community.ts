@@ -5,7 +5,6 @@ import { Post } from "./post";
 import { Profile } from "./profile";
 
 export class Community extends Profile {
-  
   @prop()
   summary: string;
   @prop()
@@ -21,9 +20,6 @@ export class Community extends Profile {
   tags: string[];
 
   @prop({ ref: () => User })
-  followers: Ref<User>;
-
-  @prop({ ref: () => User })
   contributors: Ref<User>[];
 
   @prop({ ref: () => User })
@@ -31,6 +27,6 @@ export class Community extends Profile {
   @prop({ type: () => [String] })
   links: string[];
 
-  @prop({default: 'Community'})
+  @prop({ default: "Community" })
   type: string;
 }
